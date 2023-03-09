@@ -1,5 +1,14 @@
+import { Route, Routes } from "react-router-dom";
+import Home from "./components/Home";
+import AuthRouter from "./routers/AuthRouter";
+
 function App() {
-  return <div className="font-bold text-5xl justify-center">Hello world!</div>;
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/auth/*" element={<AuthRouter />} />
+    </Routes>
+  );
 }
 
 export default App;
