@@ -2,11 +2,16 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-4 bg-blue-200 text-3xl">
-      You are in the home page!
+    <div className="flex flex-col items-center justify-center gap-72">
+      <div className="flex flex-col items-center gap-4">
+        <p className="text-4xl">👋 Bienvenido a Questionare!</p>
+        <p className="text-xl">
+          Questionare es aplicación diseñada para crear y contestar pregutnas
+        </p>
+      </div>
       <Link to="/auth/login">
-        <button className="w-fit rounded-md border-2 border-blue-500 bg-slate-300 p-2 hover:bg-slate-100">
-          Go to Login
+        <button className="rounded-md bg-blue-medium-deep p-2 text-white hover:bg-blue-bright">
+          Iniciar sesión
         </button>
       </Link>
     </div>

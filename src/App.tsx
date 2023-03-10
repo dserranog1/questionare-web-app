@@ -4,10 +4,12 @@ import AuthRouter from "./routers/AuthRouter";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/auth/*" element={<AuthRouter />} />
-    </Routes>
+    <div className="flex h-full min-h-screen flex-col justify-center bg-slate-100 font-roboto">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/auth/*" element={<AuthRouter />} />
+      </Routes>
+    </div>
   );
 }
 

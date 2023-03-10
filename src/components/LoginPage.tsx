@@ -12,34 +12,20 @@ const LoginPage = () => {
     },
   });
   return (
-    <div className="flex h-screen flex-row items-center justify-center bg-blue-200 text-3xl">
+    <div className="flex h-full flex-row items-center justify-center text-3xl">
       {" "}
       <div className="flex flex-col gap-8">
-        You are in the login page!
         <Card
-          title="Please enter your credentials"
+          title="Por favor ingresa tus credenciales"
           className="w-80"
           bordered={false}
           actions={[
             <button
-              type="submit"
               key="submitButton"
               form="loginForm"
               onClick={() => console.log("loging by hand")}
             >
-              Login
-            </button>,
-            <button
-              key="submitWithGoogleButton"
-              onClick={() => console.log("clicking google button")}
-            >
-              Google Login
-            </button>,
-            <button
-              key="submitWithEmailPassword"
-              onClick={() => console.log("click email and password button")}
-            >
-              Signup
+              Entrar
             </button>,
           ]}
         >
