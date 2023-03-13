@@ -7,7 +7,8 @@ const Home = () => {
       <div className="flex flex-col items-center gap-4">
         <p className="text-4xl">👋 Bienvenido a Questionare!</p>
         <p className="text-xl">
-          Questionare es aplicación diseñada para crear y contestar pregutnas
+          Questionare es una aplicación diseñada para crear y contestar
+          preguntas
         </p>
       </div>
       <Link to="/auth/login">
