@@ -1,4 +1,11 @@
-import { Button, Card, CardBody, CardHeader, Heading } from "@chakra-ui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  useToast,
+} from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { object, string } from "yup";
 import { FormValue } from "../types/forms";
@@ -8,6 +15,42 @@ import InputEmailField from "./InputEmailField";
 import astronaut from "../assets/astronaut.png";
 
 const LoginPage = () => {
+  const toast = useToast();
+  const handleLogin = async (e: FormValue) => {
+    try {
+      const response = await fetch("/api/v1/login", {
+        method: "POST",
+        body: JSON.stringify({
+          user: e.email,
+          password: e.password,
+        }),
+      });
+      if (response.ok) {
+        const userData = await response.json();
+        console.log(userData);
+        toast({
+          description: userData.message,
+          status: "success",
+          duration: 2000,
+          position: "top-right",
+          isClosable: true,
+        });
+      } else {
+        const failedData = await response.json();
+        toast({
+          description: failedData.message,
+          status: "error",
+          duration: 2000,
+          position: "top-right",
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      // TODO handle network error
+      console.log(error);
+    }
+  };
+
   const initialValues: FormValue = {
     email: "",
     password: "",
@@ -38,11 +81,9 @@ const LoginPage = () => {
             <Formik
               validationSchema={SignUpSchema}
               initialValues={initialValues}
-              onSubmit={(e) => {
-                console.log(e);
-              }}
+              onSubmit={handleLogin}
             >
-              {({ touched, isValid }) => (
+              {({ touched, isValid, isSubmitting }) => (
                 <Form className="flex w-80 flex-col gap-6">
                   <InputEmailField />
                   <InputPasswordField />
@@ -51,6 +92,7 @@ const LoginPage = () => {
                     type="submit"
                     colorScheme="blue"
                     variant="solid"
+                    isLoading={isSubmitting}
                   >
                     Ingresar
                   </Button>
