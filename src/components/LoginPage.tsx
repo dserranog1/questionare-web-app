@@ -13,38 +13,34 @@ import InputPasswordField from "./InputPasswordField";
 import { emailRegex } from "./misc/regex";
 import InputEmailField from "./InputEmailField";
 import astronaut from "../assets/astronaut.png";
+import { client } from "../untypeable/client";
 
 const LoginPage = () => {
   const toast = useToast();
   const handleLogin = async (e: FormValue) => {
     try {
-      const response = await fetch("/api/v1/login", {
-        method: "POST",
-        body: JSON.stringify({
-          user: e.email,
-          password: e.password,
-        }),
+      const response = await client("/api/v1/login", "POST", {
+        email: e.email,
+        password: e.password,
       });
-      if (response.ok) {
-        const userData = await response.json();
-        console.log(userData);
+      if (response.state) {
         toast({
-          description: userData.message,
+          description: response.message,
           status: "success",
           duration: 2000,
           position: "top-right",
           isClosable: true,
         });
       } else {
-        const failedData = await response.json();
         toast({
-          description: failedData.message,
+          description: response.message,
           status: "error",
           duration: 2000,
           position: "top-right",
           isClosable: true,
         });
       }
+      console.log(response);
     } catch (error) {
       // TODO handle network error
       console.log(error);
