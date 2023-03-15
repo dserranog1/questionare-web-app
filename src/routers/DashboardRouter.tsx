@@ -12,7 +12,11 @@ const DashboardRouter = () => {
   const location = useLocation();
   return (
     <div>
-      {location.pathname.includes("home") ? <LogOutButton /> : <GoBackButton />}
+      {location.pathname.includes("home") ? (
+        <LogOutButton />
+      ) : (
+        <GoBackButton to={"/dashboard/home"} />
+      )}
       <Routes>
         <Route path="home" element={<DashboardHome />} />
         <Route element={<Auth allowedRole="estudiante" />}>

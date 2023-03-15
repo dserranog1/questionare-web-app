@@ -6,7 +6,7 @@ import GoBackButton from "../components/GoBackButton";
 const LoginRouter = () => {
   return (
     <div>
-      <GoBackButton />
+      <GoBackButton to="/" />
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route
