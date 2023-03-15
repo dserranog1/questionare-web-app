@@ -3,7 +3,7 @@ import NoMatch from "../components/NoMatch";
 import GoBackButton from "../components/GoBackButton";
 import DashboardHome from "../components/DashboardHome";
 
-const AuthRouter = () => {
+const DashboardRouter = () => {
   return (
     <div>
       <GoBackButton />
@@ -12,7 +12,10 @@ const AuthRouter = () => {
         <Route
           path="*"
           element={
-            <NoMatch fallbackRoute="/dashboard/home" fallbackPageName="Home" />
+            <NoMatch
+              fallbackRoute="/dashboard/home"
+              fallbackPageName="Dashboard"
+            />
           }
         />
       </Routes>
@@ -20,4 +23,4 @@ const AuthRouter = () => {
   );
 };
 
-export default AuthRouter;
+export default DashboardRouter;

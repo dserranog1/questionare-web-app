@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import DashboardHome from "./components/DashboardHome";
 import Home from "./components/Home";
 import AuthRouter from "./routers/AuthRouter";
+import DashboardRouter from "./routers/DashboardRouter";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/auth/*" element={<AuthRouter />} />
-            <Route path="dashboard/*" element={<DashboardHome />} />
+            <Route path="dashboard/*" element={<DashboardRouter />} />
           </Routes>
         </div>
       </div>

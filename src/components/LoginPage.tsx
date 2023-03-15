@@ -63,7 +63,7 @@ const LoginPage = () => {
   return (
     <div className="flex h-full flex-row items-center justify-between gap-20 pl-36 pr-52">
       <img
-        className="w-[800px] rounded-md border-8 border-solid border-black"
+        className="w-3/6 rounded-md border-8 border-solid border-black"
         src={astronaut}
         alt="Astronaut thinking"
       />
