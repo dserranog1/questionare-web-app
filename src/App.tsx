@@ -2,7 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import { UserProvider } from "./providers/UserProvider";
-import AuthRouter from "./routers/AuthRouter";
+import LoginRouter from "./routers/LoginRouter";
 import DashboardRouter from "./routers/DashboardRouter";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
           <div className="h-full">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/auth/*" element={<AuthRouter />} />
+              <Route path="/login/*" element={<LoginRouter />} />
               <Route path="/dashboard/*" element={<DashboardRouter />} />
             </Routes>
           </div>

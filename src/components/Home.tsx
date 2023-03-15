@@ -11,7 +11,7 @@ const Home = () => {
           preguntas
         </p>
       </div>
-      <Link to="/auth/login">
+      <Link to="/login">
         <Button size="lg" colorScheme="blue">
           Comenzar
         </Button>

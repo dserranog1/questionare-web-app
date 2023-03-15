@@ -7,6 +7,7 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const StudentModules = () => {
   return (
@@ -19,9 +20,11 @@ const StudentModules = () => {
           <Text>Realizar el cuestionario disponible</Text>
         </CardBody>
         <CardFooter>
-          <Button colorScheme="blue" variant="outline">
-            Ir al Cuestionario
-          </Button>
+          <Link to="/dashboard/questionare">
+            <Button colorScheme="blue" variant="outline">
+              Ir al Cuestionario
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </div>

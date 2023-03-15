@@ -16,7 +16,7 @@ const DashboardHome = () => {
       position: "top-right",
       isClosable: true,
     });
-    return <Navigate to="/auth/login" />;
+    return <Navigate to="/login" />;
   } else {
     return (
       <div className="flex w-full flex-col items-center justify-center gap-40">

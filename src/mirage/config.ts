@@ -10,10 +10,11 @@ export function startMirage() {
           state: true,
           id: "1",
           name: "Daniel Serrano",
-          role: "estudiante",
+          role: "administrador",
           message: "Ingreso exitoso",
         };
         return response;
+        // uncomment for a 401 response
         // return new Response(
         //   401,
         //   {},
