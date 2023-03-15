@@ -1,5 +1,5 @@
 import { initUntypeable } from "untypeable";
-import { LoginResponse } from "../types/api";
+import { LoginResponse, StudentsResponse } from "../types/api";
 
 const u = initUntypeable().pushArg<"GET" | "POST" | "PUT" | "DELETE">();
 
@@ -8,6 +8,9 @@ const router = u.router({
     POST: u
       .input<{ email: string; password: string }>()
       .output<LoginResponse>(),
+  },
+  "/api/v1/user/getUsers": {
+    GET: u.output<StudentsResponse>(),
   },
 });
 
