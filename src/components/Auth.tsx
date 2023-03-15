@@ -1,9 +1,13 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import { useContext } from "react";
+import { FC, useContext } from "react";
 import { UserContext } from "../providers/UserProvider";
 import { useToast } from "@chakra-ui/react";
 
-const Auth = ({ allowedRole }: { allowedRole: string }) => {
+interface Props {
+  allowedRole: string;
+}
+
+const Auth: FC<Props> = ({ allowedRole }) => {
   const { currentUser } = useContext(UserContext);
   const toast = useToast();
   const location = useLocation();
