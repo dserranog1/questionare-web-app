@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import NoMatch from "../components/NoMatch";
-import GoBackButton from "../components/GoBackButton";
 import DashboardHome from "../components/DashboardHome";
+import LogOutButton from "../components/LogOutButton";
 
 const DashboardRouter = () => {
   return (
     <div>
-      <GoBackButton />
+      <LogOutButton />
       <Routes>
         <Route path="home" element={<DashboardHome />} />
         <Route

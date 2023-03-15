@@ -1,23 +1,26 @@
 import { Button } from "@chakra-ui/react";
-import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../providers/UserProvider";
 
-const GoBackButton = () => {
+const LogOutButton = () => {
   const navigate = useNavigate();
+  const { setCurrentUser } = useContext(UserContext);
+  const handleOnClick = () => {
+    setCurrentUser(null);
+    navigate("/");
+  };
   return (
     <div className="absolute top-2 left-3 text-lg text-slate-600 hover:text-slate-800">
       <Button
-        leftIcon={<ChevronLeftIcon className="w-4" />}
         colorScheme="gray"
         className="flex flex-row items-center justify-center gap-3"
-        onClick={() => {
-          navigate(-1);
-        }}
+        onClick={handleOnClick}
       >
-        Atras
+        Cerrar Sesion
       </Button>
     </div>
   );
 };
 
-export default GoBackButton;
+export default LogOutButton;

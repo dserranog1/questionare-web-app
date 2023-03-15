@@ -4,12 +4,11 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Divider,
   Heading,
   Text,
 } from "@chakra-ui/react";
 
-const ManageStudentsCard = () => {
+const AdminModules = () => {
   return (
     <div className="flex flex-row gap-8">
       <Card variant="elevated" border="2px">
@@ -30,7 +29,7 @@ const ManageStudentsCard = () => {
           <Heading size="md"> Preguntas</Heading>
         </CardHeader>
         <CardBody>
-          <Text>Crear, editar o eliminar estudiantes del sistema</Text>
+          <Text>Crear, editar o eliminar preguntas del sistema</Text>
         </CardBody>
         <CardFooter>
           <Button colorScheme="blue" variant="outline">
@@ -42,4 +41,4 @@ const ManageStudentsCard = () => {
   );
 };
 
-export default ManageStudentsCard;
+export default AdminModules;

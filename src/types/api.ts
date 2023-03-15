@@ -1,4 +1,4 @@
-export interface loginOK {
+export interface LoginOK {
   state: true;
   id: number;
   name: string;
@@ -6,9 +6,9 @@ export interface loginOK {
   message: string;
 }
 
-export interface loginFail {
+export interface LoginFail {
   state: false;
   message: string;
 }
 
-export type loginResponse = loginOK | loginFail;
+export type loginResponse = LoginOK | LoginFail;

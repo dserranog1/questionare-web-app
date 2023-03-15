@@ -14,9 +14,14 @@ import { emailRegex } from "./misc/regex";
 import InputEmailField from "./InputEmailField";
 import astronaut from "../assets/astronaut.png";
 import { client } from "../untypeable/client";
+import { useContext } from "react";
+import { UserContext } from "../providers/UserProvider";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const toast = useToast();
+  const navigate = useNavigate();
+  const { setCurrentUser } = useContext(UserContext);
   const handleLogin = async (e: FormValue) => {
     try {
       const response = await client("/api/v1/login", "POST", {
@@ -24,6 +29,11 @@ const LoginPage = () => {
         password: e.password,
       });
       if (response.state) {
+        setCurrentUser({
+          id: response.id,
+          name: response.name,
+          role: response.role,
+        });
         toast({
           description: response.message,
           status: "success",
@@ -31,6 +41,7 @@ const LoginPage = () => {
           position: "top-right",
           isClosable: true,
         });
+        navigate("/dashboard/home");
       } else {
         toast({
           description: response.message,
