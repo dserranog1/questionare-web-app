@@ -1,5 +1,7 @@
-export type User = {
+export interface User {
   id: number;
   name: string;
   role: "estudiante" | "administrador";
-} | null;
+}
+
+export type UserState = User | null;

@@ -1,14 +1,16 @@
-export interface LoginOK {
+import { User } from "./user";
+
+interface APIOK {
   state: true;
-  id: number;
-  name: string;
-  role: "estudiante" | "administrador";
   message: string;
 }
 
-export interface LoginFail {
+interface APIFail {
   state: false;
   message: string;
 }
 
-export type loginResponse = LoginOK | LoginFail;
+export interface LoginOK extends User, APIOK {}
+export interface LoginFail extends User, APIFail {}
+
+export type LoginResponse = LoginOK | LoginFail;

@@ -1,15 +1,15 @@
 import { useState, createContext, PropsWithChildren } from "react";
-import { User } from "../types/user";
+import { UserState } from "../types/user";
 
 export const UserContext = createContext({
   currentUser: null,
 } as {
-  currentUser: User;
-  setCurrentUser: React.Dispatch<React.SetStateAction<User>>;
+  currentUser: UserState;
+  setCurrentUser: React.Dispatch<React.SetStateAction<UserState>>;
 });
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
-  const [currentUser, setCurrentUser] = useState<User>(null);
+  const [currentUser, setCurrentUser] = useState<UserState>(null);
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>
