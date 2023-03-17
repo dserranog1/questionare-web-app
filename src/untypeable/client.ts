@@ -1,19 +1,22 @@
 import { createTypeLevelClient } from "untypeable";
+import { APIFail } from "../types/api";
 import type { MyRouter } from "./router";
 
 export const client = createTypeLevelClient<MyRouter>(
-  //TODO write meaningful error messages
   async (path, method, input) => {
     let resolvedInit: RequestInit = {};
     let response: Response;
+    let failedResponse: APIFail;
+    // since all fail responses have the same structure, we can be sure
+    // the response is of type APIFail if the response is not ok
     switch (method) {
       case "GET":
-        response = await fetch(path, resolvedInit);
+        response = await fetch(path);
         if (response.ok) {
-          console.log("from here", response);
           return response.json();
         } else {
-          return Promise.reject(new Error("Unexpected error"));
+          failedResponse = await response.json();
+          return Promise.reject(new Error(failedResponse.message));
         }
       case "POST":
         resolvedInit = {
@@ -22,10 +25,10 @@ export const client = createTypeLevelClient<MyRouter>(
         };
         response = await fetch(path, resolvedInit);
         if (response.ok) {
-          console.log("from here", response);
           return response.json();
         } else {
-          return Promise.reject(new Error("Unexpected error"));
+          failedResponse = await response.json();
+          return Promise.reject(new Error(failedResponse.message));
         }
     }
   }

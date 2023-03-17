@@ -20,7 +20,7 @@ const documentTypes = {
 
 const DashboardStudents = () => {
   let students: StudentList = [];
-  const { isLoading, error, data, isFetching, isError } = useQuery({
+  const { isLoading, error, data, isError } = useQuery({
     queryKey: ["students"],
     queryFn: () => client("/api/v1/user/getUsers", "GET"),
   });
@@ -37,11 +37,13 @@ const DashboardStudents = () => {
     );
   }
   if (isError) {
-    return (
-      <div>
-        <p>{"Unexpected: " + error}</p>
-      </div>
-    );
+    if (error instanceof Error) {
+      return (
+        <div>
+          <p>{error.message}</p>
+        </div>
+      );
+    }
   }
   return (
     <div className="mx-auto w-4/5 bg-white">

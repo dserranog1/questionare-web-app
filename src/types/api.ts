@@ -6,7 +6,7 @@ interface APIOK {
   message: string;
 }
 
-interface APIFail {
+export interface APIFail {
   state: false;
   message: string;
 }
