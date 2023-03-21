@@ -35,14 +35,32 @@ const InputPasswordField = () => {
         >
           <FormLabel>Contraseña</FormLabel>
           <InputGroup>
-            <Input type={showPassword ? "text" : "password"} {...field} />
-            <InputRightElement width="4.5rem">
-              <Button onClick={() => setShowPassword(!showPassword)} size="sm">
+            <Input
+              errorBorderColor="red-vivid-500"
+              type={showPassword ? "text" : "password"}
+              {...field}
+              bgColor="cool-grey-100"
+              focusBorderColor="light-blue-vivid-600"
+              border="1px"
+              borderColor="cool-grey-300"
+            />
+            <InputRightElement width="">
+              <Button
+                onClick={() => setShowPassword(!showPassword)}
+                mr="1"
+                size="sm"
+                variant="outline"
+                fontWeight="medium"
+                textColor="light-blue-vivid-700"
+                _hover={{}}
+              >
                 {showPassword ? "Ocultar" : "Mostrar"}
               </Button>
             </InputRightElement>
           </InputGroup>
-          <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+          <FormErrorMessage textColor="red-vivid-500">
+            {form.errors.password}
+          </FormErrorMessage>
         </FormControl>
       )}
     </Field>

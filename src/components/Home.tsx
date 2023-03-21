@@ -1,22 +1,36 @@
 import { Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import Header from "./Header";
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center justify-center gap-52 text-slate-700">
-      <div className="flex flex-col items-center gap-4">
-        <p className="text-4xl">👋 Bienvenido a Questionare!</p>
-        <p className="text-xl">
-          Questionare es una aplicación diseñada para crear y contestar
-          preguntas
-        </p>
+    <>
+      <Header />
+      <div className="flex h-full flex-col items-center justify-center gap-11">
+        <div className="flex flex-col items-center gap-5">
+          <p className="text-8 text-cool-grey-900">
+            👋 Bienvenido a{" "}
+            <span className="font-bold text-light-blue-vivid-600">
+              Questionare
+            </span>
+          </p>
+          <p className="text-5 text-cool-grey-700">
+            Questionare es una aplicación diseñada para crear y contestar
+            preguntas
+          </p>
+        </div>
+        <Link to="/login">
+          <Button
+            size="lg"
+            bgColor="light-blue-vivid-500"
+            textColor="cool-grey-050"
+            _hover={{ bgColor: "light-blue-vivid-800" }}
+          >
+            Comenzar
+          </Button>
+        </Link>
       </div>
-      <Link to="/login">
-        <Button size="lg" colorScheme="blue">
-          Comenzar
-        </Button>
-      </Link>
-    </div>
+    </>
   );
 };
 export default Home;

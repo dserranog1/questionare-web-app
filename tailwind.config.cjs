@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        roboto: "Roboto",
+        sans: "Sans Pro 3",
         pacifico: "Pacifico",
       },
       colors: {
@@ -91,6 +91,7 @@ module.exports = {
       },
     },
     spacing: {
+      0: '0',
       1: "0.25rem",
       2: "0.5rem",
       3: "0.75rem",

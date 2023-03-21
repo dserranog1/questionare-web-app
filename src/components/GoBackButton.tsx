@@ -10,11 +10,17 @@ interface Props {
 const GoBackButton: FC<Props> = ({ to }) => {
   const navigate = useNavigate();
   return (
-    <div className="absolute top-2 left-3 text-lg text-slate-600 hover:text-slate-800">
+    <div className="">
       <Button
+        size="sm"
         leftIcon={<ChevronLeftIcon className="w-4" />}
-        colorScheme="gray"
-        className="flex flex-row items-center justify-center gap-3"
+        _hover={{
+          textColor: "cool-grey-050",
+        }}
+        variant="outline"
+        boxShadow="0 3px 6px rgba(0,0,0, 0.15)"
+        border="1px"
+        textColor="cool-grey-200"
         onClick={() => {
           navigate(to);
         }}

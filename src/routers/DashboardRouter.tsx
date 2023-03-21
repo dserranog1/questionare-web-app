@@ -7,16 +7,22 @@ import DashboardQuestions from "../components/DashboardQuestions";
 import DashboardStudents from "../components/DashboardStudents";
 import GoBackButton from "../components/GoBackButton";
 import Auth from "../components/Auth";
+import Header from "../components/Header";
 
 const DashboardRouter = () => {
   const location = useLocation();
   return (
-    <div>
-      {location.pathname.includes("home") ? (
-        <LogOutButton />
-      ) : (
-        <GoBackButton to={"/dashboard/home"} />
-      )}
+    <>
+      <Header
+        navButton={
+          location.pathname.includes("home") ? (
+            <LogOutButton />
+          ) : (
+            <GoBackButton to={"/dashboard/home"} />
+          )
+        }
+      ></Header>
+      {}
       <Routes>
         <Route path="home" element={<DashboardHome />} />
         <Route element={<Auth allowedRole="estudiante" />}>
@@ -36,7 +42,7 @@ const DashboardRouter = () => {
           }
         />
       </Routes>
-    </div>
+    </>
   );
 };
 

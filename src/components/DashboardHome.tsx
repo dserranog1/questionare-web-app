@@ -19,14 +19,24 @@ const DashboardHome = () => {
     return <Navigate to="/login" />;
   } else {
     return (
-      <div className="flex w-full flex-col items-center justify-center gap-40">
-        <h1 className="text-5xl font-bold text-slate-700">Dashboard</h1>
-        <div className="m-auto flex w-fit flex-col gap-20">
-          {currentUser.role === "administrador" ? (
-            <AdminModules />
-          ) : (
-            <StudentModules />
-          )}
+      <div className="-mt-12 flex h-14 flex-col justify-between">
+        <div className="ml-3 text-8 font-bold text-cool-grey-800">
+          Hola de nuevo,{" "}
+          <span className="text-light-blue-vivid-600">
+            {currentUser.name.substring(0, currentUser.name.indexOf(" "))}
+          </span>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-8">
+          <h2 className="text-6 text-cool-grey-500">
+            Selecciona un modulo para continuar
+          </h2>
+          <div className="gap-20 m-auto flex w-fit flex-col">
+            {currentUser.role === "administrador" ? (
+              <AdminModules />
+            ) : (
+              <StudentModules />
+            )}
+          </div>
         </div>
       </div>
     );

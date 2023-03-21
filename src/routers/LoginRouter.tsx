@@ -2,11 +2,12 @@ import { Route, Routes } from "react-router-dom";
 import NoMatch from "../components/NoMatch";
 import LoginPage from "../components/LoginPage";
 import GoBackButton from "../components/GoBackButton";
+import Header from "../components/Header";
 
 const LoginRouter = () => {
   return (
     <div>
-      <GoBackButton to="/" />
+      <Header navButton={<GoBackButton to="/" />}></Header>
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route

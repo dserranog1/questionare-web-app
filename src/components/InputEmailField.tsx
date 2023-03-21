@@ -29,8 +29,18 @@ const InputEmailField = () => {
           isInvalid={meta.touched && meta.error ? true : false}
         >
           <FormLabel>Correo</FormLabel>
-          <Input type="email" {...field} />
-          <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+          <Input
+            errorBorderColor="red-vivid-500"
+            type="email"
+            {...field}
+            bgColor="cool-grey-100"
+            focusBorderColor="light-blue-vivid-600"
+            border="1px"
+            borderColor="cool-grey-300"
+          />
+          <FormErrorMessage textColor="red-vivid-500">
+            {form.errors.email}
+          </FormErrorMessage>
         </FormControl>
       )}
     </Field>

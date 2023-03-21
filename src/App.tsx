@@ -27,10 +27,7 @@ function App() {
     <UserProvider>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme}>
-          <header className="absolute top-2 right-6 font-pacifico text-5xl">
-            Questionare
-          </header>
-          <div className="flex min-h-screen flex-col justify-center bg-cool-grey-200 font-roboto">
+          <div className="flex h-full min-h-screen flex-col justify-center bg-cool-grey-100 pt-10 font-sans">
             <div className="h-full">
               <Routes>
                 <Route path="/" element={<Home />} />

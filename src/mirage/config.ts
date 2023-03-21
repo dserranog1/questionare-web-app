@@ -37,15 +37,15 @@ export function startMirage() {
           message: "Listado de estudiantes",
           students: schema.all("student").models,
         };
-        // return new Response(200, {}, payload);
-        return new Response(
-          404,
-          {},
-          {
-            state: false,
-            message: "Fallo en el listado de estudiantes",
-          }
-        );
+        return new Response(200, {}, payload);
+        // return new Response(
+        //   404,
+        //   {},
+        //   {
+        //     state: false,
+        //     message: "Fallo en el listado de estudiantes",
+        //   }
+        // );
       });
     },
   });

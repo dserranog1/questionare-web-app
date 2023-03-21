@@ -10,7 +10,7 @@ import { Form, Formik } from "formik";
 import { object, string } from "yup";
 import { FormValue } from "../types/forms";
 import InputPasswordField from "./InputPasswordField";
-import { emailRegex } from "./misc/regex";
+import { emailRegex } from "../misc/regex";
 import InputEmailField from "./InputEmailField";
 import astronaut from "../assets/astronaut.png";
 import { client } from "../untypeable/client";
@@ -72,43 +72,54 @@ const LoginPage = () => {
       .min(8, "Mínimo 8 cáracteres"),
   });
   return (
-    <div className="flex h-full flex-row items-center justify-between gap-20 pl-36 pr-52">
+    <div className="flex flex-row items-center justify-around">
       <img
-        className="w-3/6 rounded-md border-8 border-solid border-black"
+        className="w-5/12 rounded-md border-8 border-solid border-black"
         src={astronaut}
         alt="Astronaut thinking"
       />
-      <div className="flex flex-col items-center justify-center gap-10">
-        <p className="text-4xl text-slate-700">Inicia sesión para continuar</p>
-        <Card variant="elevated" size="lg">
-          <CardHeader pb="1">
-            <Heading size="s">Ingresa tus credenciales</Heading>
-          </CardHeader>
-          <CardBody>
-            <Formik
-              validationSchema={SignUpSchema}
-              initialValues={initialValues}
-              onSubmit={handleLogin}
-            >
-              {({ touched, isValid, isSubmitting }) => (
-                <Form className="flex w-80 flex-col gap-6">
-                  <InputEmailField />
-                  <InputPasswordField />
-                  <Button
-                    isDisabled={!(isValid && touched.email && touched.email)}
-                    type="submit"
-                    colorScheme="blue"
-                    variant="solid"
-                    isLoading={isSubmitting}
-                  >
-                    Ingresar
-                  </Button>
-                </Form>
-              )}
-            </Formik>
-          </CardBody>
-        </Card>
-      </div>
+      <Card
+        variant="elevated"
+        size="lg"
+        border="2px"
+        borderColor="cool-grey-100"
+      >
+        <CardHeader pb="1">
+          <Heading
+            fontSize="6"
+            fontWeight="medium"
+            textColor="cool-grey-800"
+            textAlign="center"
+          >
+            Ingresa tus credenciales
+          </Heading>
+        </CardHeader>
+        <CardBody>
+          <Formik
+            validationSchema={SignUpSchema}
+            initialValues={initialValues}
+            onSubmit={handleLogin}
+          >
+            {({ touched, isValid, isSubmitting }) => (
+              <Form className="flex flex-col gap-6">
+                <InputEmailField />
+                <InputPasswordField />
+                <Button
+                  isDisabled={!(isValid && touched.email && touched.email)}
+                  type="submit"
+                  bgColor="light-blue-vivid-500"
+                  textColor="cool-grey-050"
+                  _hover={{ bgColor: "light-blue-vivid-800" }}
+                  variant="solid"
+                  isLoading={isSubmitting}
+                >
+                  Ingresar
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </CardBody>
+      </Card>
     </div>
   );
 };
