@@ -8,6 +8,7 @@ import DashboardStudents from "../components/DashboardStudents";
 import GoBackButton from "../components/GoBackButton";
 import Auth from "../components/Auth";
 import Header from "../components/Header";
+import DashboardAddStudent from "../components/DashboardAddStudent";
 
 const DashboardRouter = () => {
   const location = useLocation();
@@ -29,8 +30,13 @@ const DashboardRouter = () => {
           <Route path="questionare" element={<DashboardQuestionare />} />
         </Route>
         <Route element={<Auth allowedRole="administrador" />}>
-          <Route path="questions" element={<DashboardQuestions />} />
-          <Route path="students" element={<DashboardStudents />} />
+          <Route path="questions">
+            <Route index element={<DashboardQuestions />} />
+          </Route>
+          <Route path="students">
+            <Route index element={<DashboardStudents />} />
+            <Route path="add" element={<DashboardAddStudent />} />
+          </Route>
         </Route>
         <Route
           path="*"
@@ -45,5 +51,4 @@ const DashboardRouter = () => {
     </>
   );
 };
-
 export default DashboardRouter;
