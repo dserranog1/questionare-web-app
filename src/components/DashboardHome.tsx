@@ -19,7 +19,7 @@ const DashboardHome = () => {
     return <Navigate to="/login" />;
   } else {
     return (
-      <div className="-mt-12 flex h-14 flex-col justify-between">
+      <div className="flex h-15 flex-col gap-10 self-start">
         <div className="ml-3 text-8 font-bold text-cool-grey-800">
           Hola de nuevo,{" "}
           <span className="text-light-blue-vivid-600">
