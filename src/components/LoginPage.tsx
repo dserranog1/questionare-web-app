@@ -41,7 +41,7 @@ const LoginPage = () => {
           position: "top-right",
           isClosable: true,
         });
-        navigate("/dashboard/home");
+        navigate("/dashboard");
       } else {
         toast({
           description: response.message,
@@ -72,9 +72,9 @@ const LoginPage = () => {
       .min(8, "Mínimo 8 cáracteres"),
   });
   return (
-    <div className="flex flex-row items-center justify-around">
+    <div className="mt-8 flex h-full flex-row items-center justify-around">
       <img
-        className="w-5/12 rounded-md border-8 border-solid border-black"
+        className="w-4/12 rounded-md border-8 border-solid border-black"
         src={astronaut}
         alt="Astronaut thinking"
       />

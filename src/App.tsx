@@ -1,11 +1,8 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-import { Route, Routes } from "react-router-dom";
-import Home from "./components/Home";
 import { UserProvider } from "./providers/UserProvider";
-import LoginRouter from "./routers/LoginRouter";
-import DashboardRouter from "./routers/DashboardRouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fontSizes, spacing, themeColors } from "./theme/config";
+import AppRouter from "./components/AppRouter";
 
 function App() {
   const theme = extendTheme({
@@ -27,14 +24,8 @@ function App() {
     <UserProvider>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme}>
-          <div className="flex h-full min-h-screen flex-col justify-center bg-cool-grey-100 pt-10 font-sans">
-            <div className="h-full">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login/*" element={<LoginRouter />} />
-                <Route path="/dashboard/*" element={<DashboardRouter />} />
-              </Routes>
-            </div>
+          <div className="h-full min-h-screen bg-cool-grey-100 font-sans">
+            <AppRouter />
           </div>
         </ChakraProvider>
       </QueryClientProvider>

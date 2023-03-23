@@ -55,17 +55,11 @@ const DashboardStudents = () => {
   const currentRecords = students.slice(indexOfFirstRecord, indexOfLastRecord);
   const nPages = Math.ceil(students.length / recordsPerPage);
   return (
-    <div className="mx-auto w-fit bg-cool-grey-050">
-      <TableContainer
-        maxH="3xl"
-        overflowY="auto"
-        boxShadow="0 10px 20px rgba(0, 0, 0, 0.15)"
-        border="1px"
-        borderColor="cool-grey-200"
-      >
-        <div className="flex flex-row justify-between p-4">
-          <h1 className="text-6 font-bold">Estudiantes</h1>
-          <div>
+    <div className="mx-9 bg-cool-grey-050">
+      <div className="flex flex-row justify-between p-4">
+        <h1 className="text-6 font-bold">Estudiantes</h1>
+        <div>
+          <Link to="add">
             <Button
               bgColor="light-blue-vivid-500"
               textColor="cool-grey-050"
@@ -74,8 +68,17 @@ const DashboardStudents = () => {
             >
               Crear nuevo
             </Button>
-          </div>
+          </Link>
         </div>
+      </div>
+      <TableContainer
+        maxH="3xl"
+        overflowY="auto"
+        overflowX="auto"
+        boxShadow="0 10px 20px rgba(0, 0, 0, 0.15)"
+        border="1px"
+        borderColor="cool-grey-200"
+      >
         <Table bgColor="cool-grey-200" size="lg" variant="striped">
           <Thead border="2px" borderColor="cool-grey-200">
             <Tr bgColor="light-blue-vivid-600">
