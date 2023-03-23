@@ -19,14 +19,14 @@ const DashboardHome = () => {
     return <Navigate to="/login" />;
   } else {
     return (
-      <div className="flex h-15 flex-col gap-10 self-start">
+      <div className="flex flex-1 flex-col justify-center gap-9">
         <div className="ml-3 text-8 font-bold text-cool-grey-800">
           Hola de nuevo,{" "}
           <span className="text-light-blue-vivid-600">
             {currentUser.name.substring(0, currentUser.name.indexOf(" "))}
           </span>
         </div>
-        <div className="flex flex-col items-center justify-center gap-8">
+        <div className="flex flex-col items-center gap-8 ">
           <h2 className="text-6 text-cool-grey-500">
             Selecciona un modulo para continuar
           </h2>

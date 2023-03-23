@@ -72,7 +72,7 @@ const LoginPage = () => {
       .min(8, "Mínimo 8 cáracteres"),
   });
   return (
-    <div className="mt-8 flex h-full flex-row items-center justify-around">
+    <div className="flex flex-1 flex-row items-center justify-around">
       <img
         className="w-4/12 rounded-md border-8 border-solid border-black"
         src={astronaut}

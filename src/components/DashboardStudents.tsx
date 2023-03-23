@@ -1,5 +1,6 @@
 import {
   Button,
+  Input,
   Table,
   TableContainer,
   Tbody,
@@ -10,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { StudentList } from "../types/student";
 import { client } from "../untypeable/client";
 import CustomSpinner from "./CustomSpinner";
@@ -25,7 +27,7 @@ const DashboardStudents = () => {
   let students: StudentList = [];
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(9);
+  const [recordsPerPage] = useState(15);
 
   const { isLoading, error, data, isError } = useQuery({
     queryKey: ["students"],
@@ -55,9 +57,14 @@ const DashboardStudents = () => {
   const currentRecords = students.slice(indexOfFirstRecord, indexOfLastRecord);
   const nPages = Math.ceil(students.length / recordsPerPage);
   return (
-    <div className="mx-9 bg-cool-grey-050">
-      <div className="flex flex-row justify-between p-4">
-        <h1 className="text-6 font-bold">Estudiantes</h1>
+    <div className="mx-9 flex flex-1 flex-col">
+      <h1 className="my-6 text-8 font-bold text-cool-grey-700">Estudiantes</h1>
+      <div className="flex flex-row">
+        <Input
+          type="text"
+          bgColor="cool-grey-050"
+          placeholder="Escribe para filtrar"
+        ></Input>
         <div>
           <Link to="add">
             <Button
@@ -72,9 +79,6 @@ const DashboardStudents = () => {
         </div>
       </div>
       <TableContainer
-        maxH="3xl"
-        overflowY="auto"
-        overflowX="auto"
         boxShadow="0 10px 20px rgba(0, 0, 0, 0.15)"
         border="1px"
         borderColor="cool-grey-200"
@@ -111,7 +115,7 @@ const DashboardStudents = () => {
                       ]
                     }
                   </Td>
-                  <Td>{student.documentNumber}</Td>
+                  <Td isNumeric>{student.documentNumber}</Td>
                   <Td>{student.email}</Td>
                   <Td>{student.phone}</Td>
                 </Tr>

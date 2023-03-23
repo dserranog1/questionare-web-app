@@ -6,8 +6,8 @@ const Home = () => {
   return (
     <>
       <Header />
-      <div className="mt-9 flex flex-col items-center justify-center gap-11">
-        <div className="flex flex-col items-center gap-5">
+      <div className="flex flex-1 flex-col items-center justify-center gap-9">
+        <div className="flex flex-col items-center gap-3">
           <p className="text-8 text-cool-grey-900">
             👋 Bienvenido a{" "}
             <span className="font-bold text-light-blue-vivid-600">

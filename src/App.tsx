@@ -24,7 +24,7 @@ function App() {
     <UserProvider>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme}>
-          <div className="h-full min-h-screen bg-cool-grey-100 font-sans">
+          <div className="flex h-full min-h-screen flex-col bg-cool-grey-100 font-sans">
             <AppRouter />
           </div>
         </ChakraProvider>

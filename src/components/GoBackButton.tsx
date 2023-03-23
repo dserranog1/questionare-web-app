@@ -9,23 +9,21 @@ interface Props {
 
 const GoBackButton: FC<Props> = ({ to }) => {
   return (
-    <div className="">
-      <Link to={to}>
-        <Button
-          size="sm"
-          leftIcon={<ChevronLeftIcon className="w-4" />}
-          _hover={{
-            textColor: "cool-grey-050",
-          }}
-          variant="outline"
-          boxShadow="0 3px 6px rgba(0,0,0, 0.15)"
-          border="1px"
-          textColor="cool-grey-200"
-        >
-          Atras
-        </Button>
-      </Link>
-    </div>
+    <Link to={to}>
+      <Button
+        size="sm"
+        leftIcon={<ChevronLeftIcon className="w-4" />}
+        _hover={{
+          textColor: "cool-grey-050",
+        }}
+        variant="outline"
+        boxShadow="0 3px 6px rgba(0,0,0, 0.15)"
+        border="1px"
+        textColor="cool-grey-200"
+      >
+        Atras
+      </Button>
+    </Link>
   );
 };
 
