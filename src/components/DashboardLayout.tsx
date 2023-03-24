@@ -12,7 +12,7 @@ const DashboardLayout = () => {
           location.pathname === "/dashboard" ? (
             <LogOutButton />
           ) : (
-            <GoBackButton to={"/dashboard"} />
+            <GoBackButton />
           )
         }
       ></Header>

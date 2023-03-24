@@ -4,34 +4,34 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react";
-import {
-  Field,
-  type FieldInputProps,
-  type FormikProps,
-  type FieldMetaProps,
-} from "formik";
-import { FormValue } from "../types/forms";
+import { Field, type FieldInputProps, type FieldMetaProps } from "formik";
+import { FC } from "react";
 
-const InputEmailField = () => {
+interface Props {
+  type: string;
+  name: string;
+  label: string;
+  errorMessage?: string;
+}
+
+const CustomInputField: FC<Props> = ({ type, name, label, errorMessage }) => {
   return (
-    <Field type="email" name="email">
+    <Field type={type} name={name}>
       {({
         field,
-        form,
         meta,
       }: {
         field: FieldInputProps<string>;
-        form: FormikProps<FormValue>;
         meta: FieldMetaProps<string>;
       }) => (
         <FormControl
           isRequired
           isInvalid={meta.touched && meta.error ? true : false}
         >
-          <FormLabel>Correo</FormLabel>
+          <FormLabel>{label}</FormLabel>
           <Input
             errorBorderColor="red-vivid-500"
-            type="email"
+            type={type}
             {...field}
             bgColor="cool-grey-100"
             focusBorderColor="light-blue-vivid-600"
@@ -39,7 +39,7 @@ const InputEmailField = () => {
             borderColor="cool-grey-300"
           />
           <FormErrorMessage textColor="red-vivid-500">
-            {form.errors.email}
+            {errorMessage}
           </FormErrorMessage>
         </FormControl>
       )}
@@ -47,4 +47,4 @@ const InputEmailField = () => {
   );
 };
 
-export default InputEmailField;
+export default CustomInputField;

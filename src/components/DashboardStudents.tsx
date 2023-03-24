@@ -12,16 +12,17 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Options } from "../types/forms";
 import { StudentList } from "../types/student";
 import { client } from "../untypeable/client";
 import CustomSpinner from "./CustomSpinner";
 import Pagination from "./Pagination";
 
-const documentTypes = {
-  1: "Tarjeta de identidad",
-  2: "Cédula de ciudadanía",
-  3: "Cédula de extranjería",
-};
+export const documentTypes: Options = [
+  { value: "1", label: "Tarjeta de identidad" },
+  { value: "2", label: "Cédula de ciudadanía" },
+  { value: "3", label: "Cédula de extranjería" },
+];
 
 const DashboardStudents = () => {
   let students: StudentList = [];
@@ -110,9 +111,9 @@ const DashboardStudents = () => {
                   </Td>
                   <Td>
                     {
-                      documentTypes[
-                        student.typeDocument as keyof typeof documentTypes
-                      ]
+                      documentTypes.find(
+                        (document) => +document.value === student.typeDocument
+                      )?.value
                     }
                   </Td>
                   <Td isNumeric>{student.documentNumber}</Td>

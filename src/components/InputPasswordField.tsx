@@ -14,7 +14,7 @@ import {
   type FieldInputProps,
 } from "formik";
 import { useState } from "react";
-import { FormValue } from "../types/forms";
+import { SignInValues } from "../types/forms";
 
 const InputPasswordField = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,7 +26,7 @@ const InputPasswordField = () => {
         meta,
       }: {
         field: FieldInputProps<string>;
-        form: FormikProps<FormValue>;
+        form: FormikProps<SignInValues>;
         meta: FieldMetaProps<string>;
       }) => (
         <FormControl

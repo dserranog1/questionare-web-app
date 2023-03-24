@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardBody,
   CardHeader,
@@ -8,21 +7,22 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { object, string } from "yup";
-import { FormValue } from "../types/forms";
+import { SignInValues } from "../types/forms";
 import InputPasswordField from "./InputPasswordField";
 import { emailRegex } from "../misc/regex";
-import InputEmailField from "./InputEmailField";
 import astronaut from "../assets/astronaut.png";
 import { client } from "../untypeable/client";
 import { useContext } from "react";
 import { UserContext } from "../providers/UserProvider";
 import { useNavigate } from "react-router-dom";
+import CustomInputField from "./CustomInputField";
+import SubmitButton from "./SubmitButton";
 
 const LoginPage = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const { setCurrentUser } = useContext(UserContext);
-  const handleLogin = async (e: FormValue) => {
+  const handleLogin = async (e: SignInValues) => {
     try {
       const response = await client("/api/v1/login", "POST", {
         email: e.email,
@@ -58,11 +58,11 @@ const LoginPage = () => {
     }
   };
 
-  const initialValues: FormValue = {
+  const initialValues: SignInValues = {
     email: "",
     password: "",
   };
-  const SignUpSchema = object({
+  const SignInSchema = object({
     email: string()
       .email("Correo inválido")
       .required("El correo es obligatorio")
@@ -96,25 +96,24 @@ const LoginPage = () => {
         </CardHeader>
         <CardBody>
           <Formik
-            validationSchema={SignUpSchema}
+            validationSchema={SignInSchema}
             initialValues={initialValues}
             onSubmit={handleLogin}
           >
-            {({ touched, isValid, isSubmitting }) => (
+            {({ isValid, isSubmitting, errors, touched }) => (
               <Form className="flex flex-col gap-6">
-                <InputEmailField />
+                <CustomInputField
+                  type="email"
+                  name="email"
+                  label="Correo"
+                  errorMessage={errors.email}
+                />
                 <InputPasswordField />
-                <Button
-                  isDisabled={!(isValid && touched.email && touched.email)}
-                  type="submit"
-                  bgColor="light-blue-vivid-500"
-                  textColor="cool-grey-050"
-                  _hover={{ bgColor: "light-blue-vivid-800" }}
-                  variant="solid"
-                  isLoading={isSubmitting}
-                >
-                  Ingresar
-                </Button>
+                <SubmitButton
+                  buttonText="Ingresar"
+                  isSubmitting={isSubmitting}
+                  isDisabled={!isValid || !(touched.email || touched.password)}
+                />
               </Form>
             )}
           </Formik>
