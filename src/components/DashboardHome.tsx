@@ -23,7 +23,7 @@ const DashboardHome = () => {
         <div className="ml-3 text-8 font-bold text-cool-grey-800">
           Hola de nuevo,{" "}
           <span className="text-light-blue-vivid-600">
-            {currentUser.name.substring(0, currentUser.name.indexOf(" "))}
+            {currentUser.firstName + " " + currentUser.secondName}
           </span>
         </div>
         <div className="flex flex-col items-center gap-8 ">

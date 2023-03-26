@@ -6,7 +6,7 @@ import { UserContext } from "../providers/UserProvider";
 const LogOutButton = () => {
   const { setCurrentUser } = useContext(UserContext);
   const handleOnClick = () => {
-    setCurrentUser(null);
+    setCurrentUser(null); //TODO handle also pocketbase logout
   };
   return (
     <Link to={"/"}>

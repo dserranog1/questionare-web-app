@@ -9,6 +9,10 @@ import { number, object, string } from "yup";
 import { emailRegex } from "../misc/regex";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { documentTypes } from "./DashboardStudents";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { pb } from "../services/pocketbase";
+import { User } from "../types/user";
+import { useNavigate } from "react-router-dom";
 
 const DashboardAddStudent = () => {
   const initialValues: SignUpValues = {
@@ -36,13 +40,26 @@ const DashboardAddStudent = () => {
       .positive("Debe ser un número positivo")
       .typeError("Valor inválido"),
     firstName: string().required("Campo obligatorio"),
-    secondName: string().required("Campo obligatorio"),
     surname: string().required("Campo obligatorio"),
-    secondSurName: string().required("Campo obligatorio"),
     typeDocument: string().required("Selecciona una de las opciones"),
     documentNumber: number()
       .required("Campo obligatorio")
       .typeError("Valor inválido"),
+  });
+
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const createUser = useMutation({
+    mutationFn: (data: SignUpValues) => {
+      return pb.collection("users").create<User>({
+        ...data,
+        role: "estudiante",
+        passwordConfirm: data.password,
+        emailVisibility: true,
+      });
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["students"] }),
   });
   return (
     <div className="mt-6 flex flex-1 items-center justify-center">
@@ -66,17 +83,25 @@ const DashboardAddStudent = () => {
           <Formik
             validationSchema={SignUpSchema}
             initialValues={initialValues}
-            onSubmit={(e: SignUpValues) => {
-              console.log(e);
+            onSubmit={(data: SignUpValues) => {
+              createUser.mutate(
+                { ...data },
+                {
+                  onSuccess: () => navigate("/dashboard/students"), //TODO implement modals for user feedback
+                  onError: () => console.log("error"),
+                }
+              );
+              console.log("submiting");
             }}
           >
-            {({ isValid, isSubmitting, errors, touched }) => (
+            {({ isValid, errors, touched }) => (
               <Form className="flex flex-col gap-6">
                 <CustomInputField
                   type="email"
                   name="email"
                   label="Correo"
                   errorMessage={errors.email}
+                  isRequired={true}
                 />
                 <InputPasswordField />
                 <CustomInputField
@@ -84,6 +109,7 @@ const DashboardAddStudent = () => {
                   name="phone"
                   label="Número de teléfono"
                   errorMessage={errors.phone}
+                  isRequired={true}
                 />
                 <div className="flex flex-row gap-5">
                   <CustomInputField
@@ -91,12 +117,14 @@ const DashboardAddStudent = () => {
                     name="firstName"
                     label="Nombre"
                     errorMessage={errors.firstName}
+                    isRequired={true}
                   />
                   <CustomInputField
                     type="text"
                     name="secondName"
                     label="Segundo nombre"
                     errorMessage={errors.secondName}
+                    isRequired={false}
                   />
                 </div>
                 <div className="flex flex-row gap-5">
@@ -105,12 +133,14 @@ const DashboardAddStudent = () => {
                     name="surname"
                     label="Apellido"
                     errorMessage={errors.surname}
+                    isRequired={true}
                   />
                   <CustomInputField
                     type="text"
                     name="secondSurName"
                     label="Segundo apellido"
                     errorMessage={errors.secondSurName}
+                    isRequired={false}
                   />
                 </div>
                 <div className="flex flex-row gap-5">
@@ -119,6 +149,7 @@ const DashboardAddStudent = () => {
                     name="documentNumber"
                     label="Número de documento"
                     errorMessage={errors.documentNumber}
+                    isRequired={true}
                   />
                   <CustomSelectField
                     label="Tipo de documento"
@@ -130,7 +161,7 @@ const DashboardAddStudent = () => {
                 </div>
                 <SubmitButton
                   buttonText="Crear"
-                  isSubmitting={isSubmitting}
+                  isSubmitting={createUser.isLoading}
                   isDisabled={
                     !isValid ||
                     !(

@@ -3,6 +3,7 @@ import { UserProvider } from "./providers/UserProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fontSizes, spacing, themeColors } from "./theme/config";
 import AppRouter from "./components/AppRouter";
+import { pb } from "./services/pocketbase";
 
 function App() {
   const theme = extendTheme({
@@ -19,6 +20,8 @@ function App() {
       },
     },
   });
+
+  pb.health.check();
 
   return (
     <UserProvider>

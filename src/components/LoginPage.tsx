@@ -11,51 +11,47 @@ import { SignInValues } from "../types/forms";
 import InputPasswordField from "./InputPasswordField";
 import { emailRegex } from "../misc/regex";
 import astronaut from "../assets/astronaut.png";
-import { client } from "../untypeable/client";
 import { useContext } from "react";
 import { UserContext } from "../providers/UserProvider";
 import { useNavigate } from "react-router-dom";
 import CustomInputField from "./CustomInputField";
 import SubmitButton from "./SubmitButton";
+import { pb } from "../services/pocketbase";
+import { User } from "../types/user";
+import { useMutation } from "@tanstack/react-query";
 
 const LoginPage = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const { setCurrentUser } = useContext(UserContext);
-  const handleLogin = async (e: SignInValues) => {
-    try {
-      const response = await client("/api/v1/login", "POST", {
-        email: e.email,
-        password: e.password,
+  const loginUser = useMutation({
+    mutationFn: ({ email, password }: SignInValues) => {
+      return pb.collection("users").authWithPassword<User>(email, password);
+    },
+    onSuccess: (data) => {
+      setCurrentUser({
+        ...data.record,
       });
-      if (response.state) {
-        setCurrentUser({
-          id: response.id,
-          name: response.name,
-          role: response.role,
-        });
-        toast({
-          description: response.message,
-          status: "success",
-          duration: 2000,
-          position: "top-right",
-          isClosable: true,
-        });
-        navigate("/dashboard");
-      } else {
-        toast({
-          description: response.message,
-          status: "error",
-          duration: 2000,
-          position: "top-right",
-          isClosable: true,
-        });
+      localStorage.setItem("JWT", data.token); //TODO actually do something with this token
+    },
+  });
+  const handleLogin = async (data: SignInValues) => {
+    loginUser.mutate(
+      { email: data.email, password: data.password },
+      {
+        onSuccess: () => {
+          // TODO handle onError
+          toast({
+            description: "Ingreso exitoso",
+            status: "success",
+            duration: 2000,
+            position: "top-right",
+            isClosable: true,
+          });
+          navigate("/dashboard");
+        },
       }
-      console.log(response);
-    } catch (error) {
-      // TODO handle network error
-      console.log(error);
-    }
+    );
   };
 
   const initialValues: SignInValues = {
@@ -100,9 +96,10 @@ const LoginPage = () => {
             initialValues={initialValues}
             onSubmit={handleLogin}
           >
-            {({ isValid, isSubmitting, errors, touched }) => (
+            {({ isValid, errors, touched }) => (
               <Form className="flex flex-col gap-6">
                 <CustomInputField
+                  isRequired={true}
                   type="email"
                   name="email"
                   label="Correo"
@@ -111,7 +108,7 @@ const LoginPage = () => {
                 <InputPasswordField />
                 <SubmitButton
                   buttonText="Ingresar"
-                  isSubmitting={isSubmitting}
+                  isSubmitting={loginUser.isLoading}
                   isDisabled={!isValid || !(touched.email || touched.password)}
                 />
               </Form>

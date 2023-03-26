@@ -12,9 +12,16 @@ interface Props {
   name: string;
   label: string;
   errorMessage?: string;
+  isRequired: boolean;
 }
 
-const CustomInputField: FC<Props> = ({ type, name, label, errorMessage }) => {
+const CustomInputField: FC<Props> = ({
+  type,
+  name,
+  label,
+  errorMessage,
+  isRequired,
+}) => {
   return (
     <Field type={type} name={name}>
       {({
@@ -25,7 +32,7 @@ const CustomInputField: FC<Props> = ({ type, name, label, errorMessage }) => {
         meta: FieldMetaProps<string>;
       }) => (
         <FormControl
-          isRequired
+          isRequired={isRequired}
           isInvalid={meta.touched && meta.error ? true : false}
         >
           <FormLabel>{label}</FormLabel>

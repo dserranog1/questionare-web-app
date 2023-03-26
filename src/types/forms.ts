@@ -10,9 +10,9 @@ export interface SignUpValues {
   secondName: string;
   surname: string;
   secondSurName: string;
-  typeDocument: string;
-  documentNumber: string;
-  phone: string;
+  typeDocument: 1 | 2 | 3 | "";
+  documentNumber: number | "";
+  phone: number | "";
 }
 
 export type Options = {
