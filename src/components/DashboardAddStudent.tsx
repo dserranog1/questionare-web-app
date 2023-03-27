@@ -5,14 +5,15 @@ import { SignUpValues } from "../types/forms";
 import InputPasswordField from "./InputPasswordField";
 import CustomSelectField from "./CustomSelectField";
 import SubmitButton from "./SubmitButton";
-import { number, object, string } from "yup";
-import { emailRegex } from "../misc/regex";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { documentTypes } from "./DashboardStudents";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { pb } from "../services/pocketbase";
 import { User } from "../types/user";
 import { useNavigate } from "react-router-dom";
+import { SignUpSchema } from "../schemas";
+import { useContext } from "react";
+import { DisclosuresContext } from "../providers/DisclosuresProvider";
 
 const DashboardAddStudent = () => {
   const initialValues: SignUpValues = {
@@ -27,28 +28,10 @@ const DashboardAddStudent = () => {
     phone: "",
   };
 
-  const SignUpSchema = object({
-    email: string()
-      .email("Correo inválido")
-      .required("El correo es obligatorio")
-      .matches(emailRegex, "Correo invalido"),
-    password: string()
-      .required("La contraseña es obligatoria")
-      .min(8, "Mínimo 8 cáracteres"),
-    phone: number()
-      .required("Campo obligatorio")
-      .positive("Debe ser un número positivo")
-      .typeError("Valor inválido"),
-    firstName: string().required("Campo obligatorio"),
-    surname: string().required("Campo obligatorio"),
-    typeDocument: string().required("Selecciona una de las opciones"),
-    documentNumber: number()
-      .required("Campo obligatorio")
-      .typeError("Valor inválido"),
-  });
-
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { successfullDisclosure, errorDisclosure } =
+    useContext(DisclosuresContext);
 
   const createUser = useMutation({
     mutationFn: (data: SignUpValues) => {
@@ -62,7 +45,7 @@ const DashboardAddStudent = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["students"] }),
   });
   return (
-    <div className="mt-6 flex flex-1 items-center justify-center">
+    <div className="my-6 flex flex-1 items-center justify-center">
       <Card
         variant="elevated"
         size="lg"
@@ -87,8 +70,13 @@ const DashboardAddStudent = () => {
               createUser.mutate(
                 { ...data },
                 {
-                  onSuccess: () => navigate("/dashboard/students"), //TODO implement modals for user feedback
-                  onError: () => console.log("error"),
+                  onSuccess: () => {
+                    successfullDisclosure.onOpen();
+                    navigate("/dashboard/students");
+                  },
+                  onError: () => {
+                    errorDisclosure.onOpen(); //TODO write meaninfull error message
+                  },
                 }
               );
               console.log("submiting");

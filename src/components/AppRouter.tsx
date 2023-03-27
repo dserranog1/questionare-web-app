@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { DisclosuresProvider } from "../providers/DisclosuresProvider";
 import Auth from "./Auth";
 import DashboardAddStudent from "./DashboardAddStudent";
 import DashboardHome from "./DashboardHome";
@@ -22,7 +23,15 @@ const AppRouter = () => {
           element={<NoMatch fallbackRoute="" fallbackPageName="Login" />}
         />
       </Route>
-      <Route path="/dashboard" element={<DashboardLayout />}>
+
+      <Route
+        path="/dashboard"
+        element={
+          <DisclosuresProvider>
+            <DashboardLayout />
+          </DisclosuresProvider>
+        }
+      >
         <Route index element={<DashboardHome />} />
         <Route element={<Auth allowedRole="estudiante" />}>
           <Route path="questionare" element={<DashboardQuestionare />} />

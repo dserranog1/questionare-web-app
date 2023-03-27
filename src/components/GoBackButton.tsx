@@ -1,13 +1,18 @@
 import { Button } from "@chakra-ui/react";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
-const GoBackButton = () => {
+interface Props {
+  to?: string;
+}
+
+const GoBackButton: FC<Props> = ({ to }) => {
   const navigate = useNavigate();
   return (
     <Button
       onClick={() => {
-        navigate(-1);
+        navigate(to ? to : ".");
       }}
       size="sm"
       leftIcon={<ChevronLeftIcon className="w-4" />}

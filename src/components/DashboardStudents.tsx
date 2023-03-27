@@ -26,15 +26,14 @@ export const documentTypes: Options = [
 
 const DashboardStudents = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(15);
+  const [recordsPerPage] = useState(8);
 
   const { status, error, data } = useQuery({
     queryKey: ["students"],
     queryFn: () =>
       pb
         .collection("users")
-        .getList<User>(undefined, undefined, { filter: 'role = "estudiante"' }),
-    onSuccess: (data) => console.log(data.items),
+        .getList<User>(undefined, undefined, { filter: 'role = "estudiante"' }), // TODO use paginated fetch
   });
   if (status === "error") {
     if (error instanceof Error) {
@@ -43,6 +42,9 @@ const DashboardStudents = () => {
           <p>{error.message}</p>
         </div>
       );
+    } else {
+      //this else prevents component to return undefined
+      return <div>some error</div>; //TODO handle alll errors
     }
   } else if (status === "loading") {
     return <CustomSpinner />;

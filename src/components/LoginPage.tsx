@@ -6,10 +6,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import { object, string } from "yup";
 import { SignInValues } from "../types/forms";
 import InputPasswordField from "./InputPasswordField";
-import { emailRegex } from "../misc/regex";
 import astronaut from "../assets/astronaut.png";
 import { useContext } from "react";
 import { UserContext } from "../providers/UserProvider";
@@ -19,6 +17,7 @@ import SubmitButton from "./SubmitButton";
 import { pb } from "../services/pocketbase";
 import { User } from "../types/user";
 import { useMutation } from "@tanstack/react-query";
+import { SignInSchema } from "../schemas";
 
 const LoginPage = () => {
   const toast = useToast();
@@ -58,15 +57,6 @@ const LoginPage = () => {
     email: "",
     password: "",
   };
-  const SignInSchema = object({
-    email: string()
-      .email("Correo inválido")
-      .required("El correo es obligatorio")
-      .matches(emailRegex, "Correo invalido"),
-    password: string()
-      .required("La contraseña es obligatoria")
-      .min(8, "Mínimo 8 cáracteres"),
-  });
   return (
     <div className="flex flex-1 flex-row items-center justify-around">
       <img
