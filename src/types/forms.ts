@@ -16,6 +16,6 @@ export interface SignUpValues {
 }
 
 export type Options = {
-  value: string;
+  value: number;
   label: string;
 }[];

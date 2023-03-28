@@ -6,7 +6,6 @@ import InputPasswordField from "./InputPasswordField";
 import CustomSelectField from "./CustomSelectField";
 import SubmitButton from "./SubmitButton";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { documentTypes } from "./DashboardStudents";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { pb } from "../services/pocketbase";
 import { User } from "../types/user";
@@ -14,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { SignUpSchema } from "../schemas";
 import { useContext } from "react";
 import { DisclosuresContext } from "../providers/DisclosuresProvider";
+import { documentTypes } from "./StudentInfoModal";
 
 const DashboardAddStudent = () => {
   const initialValues: SignUpValues = {

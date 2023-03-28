@@ -21,7 +21,12 @@ interface Props {
   isControlled: boolean;
 }
 
-const CustomModal: FC<Props> = ({ isOpen, onClose, info, isSuccessModal }) => {
+const SuccessErrorModal: FC<Props> = ({
+  isOpen,
+  onClose,
+  info,
+  isSuccessModal,
+}) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -61,4 +66,4 @@ const CustomModal: FC<Props> = ({ isOpen, onClose, info, isSuccessModal }) => {
   );
 };
 
-export default CustomModal;
+export default SuccessErrorModal;
