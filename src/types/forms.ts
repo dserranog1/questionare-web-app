@@ -15,7 +15,6 @@ export interface SignUpValues {
   phone: number | "";
 }
 
-export type Options = {
-  value: number;
-  label: string;
-}[];
+export type Option = { value: number; label: string };
+
+export type Options = Option[];

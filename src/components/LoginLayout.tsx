@@ -5,7 +5,7 @@ import Header from "./Header";
 const LoginLayout = () => {
   return (
     <>
-      <Header navButton={<GoBackButton to="/" />}></Header>
+      <Header navButton={<GoBackButton />}></Header>
       <Outlet />
     </>
   );

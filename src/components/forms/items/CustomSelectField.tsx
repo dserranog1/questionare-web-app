@@ -2,7 +2,7 @@ import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { Field, type FieldProps } from "formik";
 import { FC } from "react";
-import { Options } from "../types/forms";
+import { Option, Options } from "../../../types/forms";
 
 interface Props {
   name: string;
@@ -10,6 +10,7 @@ interface Props {
   placeholder: string;
   errorMessage?: string;
   options: Options;
+  defaultValue?: Option;
 }
 
 const CustomSelectField: FC<Props> = ({
@@ -18,6 +19,7 @@ const CustomSelectField: FC<Props> = ({
   placeholder,
   errorMessage,
   options,
+  defaultValue,
 }) => {
   return (
     <Field type="select" name={name}>
@@ -39,7 +41,7 @@ const CustomSelectField: FC<Props> = ({
             }}
             selectedOptionStyle="check"
             options={options}
-            defaultValue={null}
+            defaultValue={defaultValue ? defaultValue : null}
           />
           <FormErrorMessage textColor="red-vivid-500">
             {errorMessage}

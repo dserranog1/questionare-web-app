@@ -1,10 +1,6 @@
 import { Card, CardBody, CardHeader } from "@chakra-ui/react";
-import { Form, Formik } from "formik";
-import CustomInputField from "./CustomInputField";
+import { Formik } from "formik";
 import { SignUpValues } from "../types/forms";
-import InputPasswordField from "./InputPasswordField";
-import CustomSelectField from "./CustomSelectField";
-import SubmitButton from "./SubmitButton";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { pb } from "../services/pocketbase";
@@ -13,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { SignUpSchema } from "../schemas";
 import { useContext } from "react";
 import { DisclosuresContext } from "../providers/DisclosuresProvider";
-import { documentTypes } from "./StudentInfoModal";
+import SubmitButton from "./forms/items/SubmitButton";
+import StudentsAddForm from "./forms/StudentsAddForm";
 
 const DashboardAddStudent = () => {
   const initialValues: SignUpValues = {
@@ -83,70 +80,7 @@ const DashboardAddStudent = () => {
             }}
           >
             {({ isValid, errors, touched }) => (
-              <Form className="flex flex-col gap-6">
-                <CustomInputField
-                  type="email"
-                  name="email"
-                  label="Correo"
-                  errorMessage={errors.email}
-                  isRequired={true}
-                />
-                <InputPasswordField />
-                <CustomInputField
-                  type="text"
-                  name="phone"
-                  label="Número de teléfono"
-                  errorMessage={errors.phone}
-                  isRequired={true}
-                />
-                <div className="flex flex-row gap-5">
-                  <CustomInputField
-                    type="text"
-                    name="firstName"
-                    label="Nombre"
-                    errorMessage={errors.firstName}
-                    isRequired={true}
-                  />
-                  <CustomInputField
-                    type="text"
-                    name="secondName"
-                    label="Segundo nombre"
-                    errorMessage={errors.secondName}
-                    isRequired={false}
-                  />
-                </div>
-                <div className="flex flex-row gap-5">
-                  <CustomInputField
-                    type="text"
-                    name="surname"
-                    label="Apellido"
-                    errorMessage={errors.surname}
-                    isRequired={true}
-                  />
-                  <CustomInputField
-                    type="text"
-                    name="secondSurName"
-                    label="Segundo apellido"
-                    errorMessage={errors.secondSurName}
-                    isRequired={false}
-                  />
-                </div>
-                <div className="flex flex-row gap-5">
-                  <CustomInputField
-                    type="text"
-                    name="documentNumber"
-                    label="Número de documento"
-                    errorMessage={errors.documentNumber}
-                    isRequired={true}
-                  />
-                  <CustomSelectField
-                    label="Tipo de documento"
-                    name="typeDocument"
-                    errorMessage={errors.typeDocument}
-                    placeholder="Seleccione un tipo"
-                    options={documentTypes}
-                  />
-                </div>
+              <StudentsAddForm errors={errors}>
                 <SubmitButton
                   buttonText="Crear"
                   isSubmitting={createUser.isLoading}
@@ -162,7 +96,7 @@ const DashboardAddStudent = () => {
                     )
                   }
                 />
-              </Form>
+              </StudentsAddForm>
             )}
           </Formik>
         </CardBody>

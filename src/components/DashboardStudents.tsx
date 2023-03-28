@@ -14,7 +14,7 @@ import {
 import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { pb } from "../services/pocketbase";
 import { User } from "../types/user";
 import CustomSpinner from "./CustomSpinner";
@@ -24,8 +24,8 @@ import StudentInfoModal from "./StudentInfoModal";
 const DashboardStudents = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(8);
-  const [selectedStudent, setSelectedStudent] = useState<User>();
   const studentInfoModalDisclosure = useDisclosure();
+  const { studentId } = useParams();
   const { status, error, data } = useQuery({
     queryKey: ["students"],
     queryFn: () =>
@@ -56,10 +56,13 @@ const DashboardStudents = () => {
     const nPages = Math.ceil(data.items.length / recordsPerPage);
     return (
       <>
-        <StudentInfoModal
-          {...studentInfoModalDisclosure}
-          student={selectedStudent}
-        />
+        {studentId && (
+          <StudentInfoModal
+            {...studentInfoModalDisclosure}
+            isOpen={true}
+            studentId={studentId}
+          />
+        )}
         <div className="mx-9 flex flex-1 flex-col">
           <h1 className="my-6 text-8 font-bold text-cool-grey-700">
             Estudiantes
@@ -105,29 +108,26 @@ const DashboardStudents = () => {
                     <Tr key={student.id} fontSize="2" textColor="cool-grey-700">
                       <Td px="3">
                         <div>
-                          <Tooltip label="Editar">
-                            <Button
-                              onClick={() => {
-                                setSelectedStudent(student);
-                              }}
-                              variant="ghost"
-                              _hover={{ bgColor: "cool-grey-100" }}
-                            >
-                              <PencilSquareIcon className="w-5 fill-light-blue-vivid-900" />
-                            </Button>
-                          </Tooltip>
-                          <Tooltip label="Ver">
-                            <Button
-                              onClick={() => {
-                                setSelectedStudent(student);
-                                studentInfoModalDisclosure.onOpen();
-                              }}
-                              variant="ghost"
-                              _hover={{ bgColor: "cool-grey-100" }}
-                            >
-                              <EyeIcon className="w-5 fill-light-blue-vivid-900" />
-                            </Button>
-                          </Tooltip>
+                          <Link to={`${student.id}/edit`}>
+                            <Tooltip label="Editar">
+                              <Button
+                                variant="ghost"
+                                _hover={{ bgColor: "cool-grey-100" }}
+                              >
+                                <PencilSquareIcon className="w-5 fill-light-blue-vivid-900" />
+                              </Button>
+                            </Tooltip>
+                          </Link>
+                          <Link to={`${student.id}`}>
+                            <Tooltip label="Ver">
+                              <Button
+                                variant="ghost"
+                                _hover={{ bgColor: "cool-grey-100" }}
+                              >
+                                <EyeIcon className="w-5 fill-light-blue-vivid-900" />
+                              </Button>
+                            </Tooltip>
+                          </Link>
                         </div>
                       </Td>
                       <Td>

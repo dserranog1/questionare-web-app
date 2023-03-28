@@ -7,13 +7,13 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { SignInValues } from "../types/forms";
-import InputPasswordField from "./InputPasswordField";
+import InputPasswordField from "./forms/items/InputPasswordField";
 import astronaut from "../assets/astronaut.png";
 import { useContext } from "react";
 import { UserContext } from "../providers/UserProvider";
 import { useNavigate } from "react-router-dom";
-import CustomInputField from "./CustomInputField";
-import SubmitButton from "./SubmitButton";
+import CustomInputField from "./forms/items/CustomInputField";
+import SubmitButton from "./forms/items/SubmitButton";
 import { pb } from "../services/pocketbase";
 import { User } from "../types/user";
 import { useMutation } from "@tanstack/react-query";

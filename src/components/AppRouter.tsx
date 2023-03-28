@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { DisclosuresProvider } from "../providers/DisclosuresProvider";
 import Auth from "./Auth";
 import DashboardAddStudent from "./DashboardAddStudent";
+import DashboardEditStudent from "./DashboardEditStudent";
 import DashboardHome from "./DashboardHome";
 import DashboardLayout from "./DashboardLayout";
 import DashboardQuestionare from "./DashboardQuestionare";
@@ -42,7 +43,9 @@ const AppRouter = () => {
           </Route>
           <Route path="students">
             <Route index element={<DashboardStudents />} />
+            <Route path=":studentId" element={<DashboardStudents />} />
             <Route path="add" element={<DashboardAddStudent />} />
+            <Route path=":studentId/edit" element={<DashboardEditStudent />} />
           </Route>
         </Route>
         <Route

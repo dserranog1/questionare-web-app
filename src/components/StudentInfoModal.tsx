@@ -15,12 +15,16 @@ import {
   PhoneIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
+import { useQuery } from "@tanstack/react-query";
 import { FC } from "react";
+import { Link } from "react-router-dom";
+import { pb } from "../services/pocketbase";
 import { Options } from "../types/forms";
 import { User } from "../types/user";
+import CustomSpinner from "./CustomSpinner";
 
 interface Props {
-  student: User | undefined;
+  studentId: string;
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
@@ -34,10 +38,58 @@ export const documentTypes: Options = [
   { value: 3, label: "Cédula de extranjería" },
 ];
 
-const StudentInfoModal: FC<Props> = ({ isOpen, onClose, student }) => {
-  const documentName =
-    documentTypes.find((doc) => +doc.value === student?.typeDocument)?.label ||
-    "";
+const StudentInfoModal: FC<Props> = ({ isOpen, onClose, studentId }) => {
+  const {
+    status,
+    error,
+    data: student,
+  } = useQuery({
+    queryKey: ["students", studentId],
+    queryFn: () => pb.collection("users").getOne<User>(studentId),
+  });
+
+  const getContent = () => {
+    if (status === "error") {
+      return <p>Error al obtener la información del estudiante</p>;
+    }
+    if (status === "loading") {
+      return <CustomSpinner />;
+    }
+    const documentName = documentTypes.find(
+      (doc) => +doc.value === student.typeDocument
+    )?.label;
+    return (
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-row gap-6">
+          <CheckBadgeIcon className="w-5 fill-cool-grey-900" />
+          {student.firstName +
+            " " +
+            student.secondName +
+            " " +
+            student.surname +
+            " " +
+            student.secondSurName}
+        </div>
+        <div className="flex flex-row gap-6">
+          <InboxIcon className="w-5 fill-cool-grey-900" />
+          {student.email}
+        </div>
+        <div className="flex flex-row gap-6">
+          <PhoneIcon className="w-5 fill-cool-grey-900" />
+          {student.phone}
+        </div>
+        <div className="flex flex-row gap-6">
+          <IdentificationIcon className="w-5 fill-cool-grey-900" />
+          <div className="flex flex-col justify-center">
+            <p>{student.documentNumber}</p>
+            <p className="text-1">{documentName}</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  //TODO add posibility to go edit from the modal (add edit button)
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -55,54 +107,25 @@ const StudentInfoModal: FC<Props> = ({ isOpen, onClose, student }) => {
           px="7"
           textColor="cool-grey-600"
         >
-          {student ? (
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-row gap-6">
-                <CheckBadgeIcon className="w-5 fill-cool-grey-900" />
-                {student.firstName +
-                  " " +
-                  student.secondName +
-                  " " +
-                  student.surname +
-                  " " +
-                  student.secondSurName}
-              </div>
-              <div className="flex flex-row gap-6">
-                <InboxIcon className="w-5 fill-cool-grey-900" />
-                {student.email}
-              </div>
-              <div className="flex flex-row gap-6">
-                <PhoneIcon className="w-5 fill-cool-grey-900" />
-                {student.phone}
-              </div>
-              <div className="flex flex-row gap-6">
-                <IdentificationIcon className="w-5 fill-cool-grey-900" />
-                <div className="flex flex-col justify-center">
-                  <p>{student.documentNumber}</p>
-                  <p className="text-1">{documentName}</p>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <p>Error al obtener la información del estudiante</p>
-          )}
+          {getContent()}
         </ModalBody>
         <ModalFooter>
-          <Button
-            colorScheme="blue"
-            variant="solid"
-            bgColor="light-blue-vivid-500"
-            textColor="cool-grey-050"
-            _hover={{ bgColor: "light-blue-vivid-800" }}
-            mr={3}
-            onClick={onClose}
-          >
-            Cerrar
-          </Button>
+          <Link to={".."}>
+            <Button
+              colorScheme="blue"
+              variant="solid"
+              bgColor="light-blue-vivid-500"
+              textColor="cool-grey-050"
+              _hover={{ bgColor: "light-blue-vivid-800" }}
+              mr={3}
+              onClick={onClose}
+            >
+              Cerrar
+            </Button>
+          </Link>
         </ModalFooter>
       </ModalContent>
     </Modal>
   );
 };
-
 export default StudentInfoModal;
