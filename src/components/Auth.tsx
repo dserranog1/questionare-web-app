@@ -31,7 +31,7 @@ const Auth: FC<Props> = ({ allowedRole }) => {
       position: "top-right",
       isClosable: true,
     });
-    return <Navigate to="/dashboard/home" state={{ from: location }} replace />;
+    return <Navigate to="/dashboard" state={{ from: location }} replace />;
   }
 };
 
