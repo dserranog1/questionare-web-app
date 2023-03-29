@@ -1,6 +1,5 @@
 import {
   Button,
-  Input,
   Table,
   TableContainer,
   Tbody,
@@ -11,27 +10,36 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
+import {
+  EyeIcon,
+  PencilSquareIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { pb } from "../services/pocketbase";
-import { User } from "../types/user";
+import { User, UserList } from "../types/user";
 import CustomSpinner from "./CustomSpinner";
 import Pagination from "./Pagination";
+import SearchBar from "./SearchBar";
 import StudentInfoModal from "./StudentInfoModal";
 
 const DashboardStudents = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(8);
-  const studentInfoModalDisclosure = useDisclosure();
   const { studentId } = useParams();
+  const studentInfoModalDisclosure = useDisclosure();
+  const [filteredStudents, setFilteredStudents] = useState<UserList>([]);
+  const [isFiltered, setIsFiltered] = useState(false);
+  const [searchBarValue, setSearchBarValue] = useState<string>("");
   const { status, error, data } = useQuery({
     queryKey: ["students"],
     queryFn: () =>
       pb
         .collection("users")
         .getList<User>(undefined, undefined, { filter: 'role = "estudiante"' }), // TODO use paginated fetch
+    onSuccess: (data) => setFilteredStudents(data.items),
   });
   if (status === "error") {
     if (error instanceof Error) {
@@ -49,11 +57,10 @@ const DashboardStudents = () => {
   } else {
     const indexOfLastRecord = currentPage * recordsPerPage; // TODO use paginated fetch
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    const currentRecords = data.items.slice(
-      indexOfFirstRecord,
-      indexOfLastRecord
-    );
-    const nPages = Math.ceil(data.items.length / recordsPerPage);
+    const currentListOfStudents = isFiltered
+      ? filteredStudents
+      : data.items.slice(indexOfFirstRecord, indexOfLastRecord);
+
     return (
       <>
         {studentId && (
@@ -63,16 +70,19 @@ const DashboardStudents = () => {
             studentId={studentId}
           />
         )}
-        <div className="mx-9 flex flex-1 flex-col">
+        <div className="mx-9 mb-6 flex flex-1 flex-col">
           <h1 className="my-6 text-8 font-bold text-cool-grey-700">
             Estudiantes
           </h1>
           <div className="flex flex-row">
-            <Input
-              type="text"
-              bgColor="cool-grey-050"
-              placeholder="Escribe para filtrar"
-            ></Input>
+            <SearchBar
+              searchBarValue={searchBarValue}
+              setSearchBarValue={setSearchBarValue}
+              setFilteredStudents={setFilteredStudents}
+              setIsFiltered={setIsFiltered}
+              students={data.items}
+            />
+
             <div>
               <Link to="add">
                 <Button
@@ -103,7 +113,7 @@ const DashboardStudents = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {currentRecords.map((student) => {
+                {currentListOfStudents.map((student) => {
                   return (
                     <Tr key={student.id} fontSize="2" textColor="cool-grey-700">
                       <Td px="3">
@@ -147,11 +157,13 @@ const DashboardStudents = () => {
               </Tbody>
             </Table>
           </TableContainer>
-          <Pagination
-            nPages={nPages}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+          {!isFiltered && (
+            <Pagination
+              nPages={Math.ceil(data.items.length / recordsPerPage)}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          )}
         </div>
       </>
     );
