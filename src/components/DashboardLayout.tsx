@@ -8,17 +8,17 @@ import LogOutButton from "./LogOutButton";
 
 const DashboardLayout = () => {
   const location = useLocation();
-  const { successfullDisclosure, errorDisclosure } =
+  const { successfullDisclosure, errorDisclosure, message } =
     useContext(DisclosuresContext);
   return (
     <>
       <SuccessErrorModal
-        info={"Estudiante creado con éxito"}
+        info={message}
         isSuccessModal={true}
         {...successfullDisclosure}
       />
       <SuccessErrorModal
-        info={"Error al crear el estudiante"}
+        info={message}
         isSuccessModal={false}
         {...errorDisclosure}
       />

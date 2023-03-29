@@ -50,7 +50,7 @@ const StudentInfoModal: FC<Props> = ({ isOpen, onClose, studentId }) => {
 
   const getContent = () => {
     if (status === "error") {
-      return <p>Error al obtener la información del estudiante</p>;
+      return <p>Error al obtener la información del estudiante</p>; //TODO more meaningful message
     }
     if (status === "loading") {
       return <CustomSpinner />;
@@ -100,7 +100,6 @@ const StudentInfoModal: FC<Props> = ({ isOpen, onClose, studentId }) => {
             Información del estudiante
           </div>
         </ModalHeader>
-        <ModalCloseButton />
         <ModalBody
           justifyContent="flex-start"
           display="flex"

@@ -17,7 +17,7 @@ import { documentTypes } from "./StudentInfoModal";
 const DashboardEditStudent = () => {
   const { studentId } = useParams();
   const navigate = useNavigate();
-  const { successfullDisclosure, errorDisclosure } =
+  const { successfullDisclosure, errorDisclosure, setMessage } =
     useContext(DisclosuresContext);
   const {
     status,
@@ -108,10 +108,12 @@ const DashboardEditStudent = () => {
                 { ...data },
                 {
                   onSuccess: () => {
+                    setMessage("Estudiante actualizado con éxito");
                     successfullDisclosure.onOpen();
                     navigate("/dashboard/students");
                   },
                   onError: () => {
+                    setMessage("Error al actualizar el estudiante");
                     errorDisclosure.onOpen(); //TODO write meaninfull error message
                   },
                 }
@@ -125,7 +127,7 @@ const DashboardEditStudent = () => {
                 errors={errors}
               >
                 <SubmitButton
-                  buttonText="Crear"
+                  buttonText="Guardar"
                   isSubmitting={editUser.isLoading}
                   isDisabled={!isValid}
                 />

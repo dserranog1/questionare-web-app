@@ -27,7 +27,7 @@ const DashboardAddStudent = () => {
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { successfullDisclosure, errorDisclosure } =
+  const { successfullDisclosure, errorDisclosure, setMessage } =
     useContext(DisclosuresContext);
 
   const createUser = useMutation({
@@ -68,10 +68,12 @@ const DashboardAddStudent = () => {
                 { ...data },
                 {
                   onSuccess: () => {
+                    setMessage("Estudiante creado con éxito");
                     successfullDisclosure.onOpen();
                     navigate("/dashboard/students");
                   },
                   onError: () => {
+                    setMessage("Error al crear el estudiante");
                     errorDisclosure.onOpen(); //TODO write meaninfull error message
                   },
                 }
