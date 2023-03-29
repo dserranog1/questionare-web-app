@@ -10,11 +10,7 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import {
-  EyeIcon,
-  PencilSquareIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/solid";
+import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -24,6 +20,20 @@ import CustomSpinner from "./CustomSpinner";
 import Pagination from "./Pagination";
 import SearchBar from "./SearchBar";
 import StudentInfoModal from "./StudentInfoModal";
+
+const filterStudentsFn = (student: User, query: string): boolean => {
+  return (
+    student.firstName +
+    " " +
+    student.secondName +
+    " " +
+    student.surname +
+    " " +
+    student.secondSurName
+  )
+    .toLowerCase()
+    .includes(query.toLowerCase());
+};
 
 const DashboardStudents = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -75,14 +85,14 @@ const DashboardStudents = () => {
             Estudiantes
           </h1>
           <div className="flex flex-row">
-            <SearchBar
+            <SearchBar<User>
               searchBarValue={searchBarValue}
               setSearchBarValue={setSearchBarValue}
-              setFilteredStudents={setFilteredStudents}
+              setFilteredData={setFilteredStudents}
               setIsFiltered={setIsFiltered}
-              students={data.items}
+              data={data.items}
+              filterFn={filterStudentsFn}
             />
-
             <div>
               <Link to="add">
                 <Button

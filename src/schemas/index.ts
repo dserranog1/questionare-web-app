@@ -1,4 +1,4 @@
-import { number, object, string } from "yup";
+import { array, number, object, string } from "yup";
 import { emailRegex } from "../misc/regex";
 
 export const SignUpSchema = object({
@@ -29,4 +29,15 @@ export const SignInSchema = object({
   password: string()
     .required("La contraseña es obligatoria")
     .min(8, "Mínimo 8 cáracteres"),
+});
+
+export const RegisterQuestionSchema = object({
+  title: string().required("El título es obligatorio"),
+  answers: array()
+    .of(
+      object({
+        description: string().required("Campo obligatorio"),
+      })
+    )
+    .min(2, "Mínimo 2 respuestas"),
 });

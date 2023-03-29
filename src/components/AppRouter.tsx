@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { DisclosuresProvider } from "../providers/DisclosuresProvider";
 import Auth from "./Auth";
+import DashboardAddQuestion from "./DashboardAddQuestion";
 import DashboardAddStudent from "./DashboardAddStudent";
 import DashboardEditStudent from "./DashboardEditStudent";
 import DashboardHome from "./DashboardHome";
@@ -40,6 +41,7 @@ const AppRouter = () => {
         <Route element={<Auth allowedRole="administrador" />}>
           <Route path="questions">
             <Route index element={<DashboardQuestions />} />
+            <Route path="add" element={<DashboardAddQuestion />} />
           </Route>
           <Route path="students">
             <Route index element={<DashboardStudents />} />

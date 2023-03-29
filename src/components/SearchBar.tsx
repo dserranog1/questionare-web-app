@@ -1,42 +1,29 @@
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import { ChangeEvent, FC } from "react";
-import { UserList } from "../types/user";
+import { ChangeEvent } from "react";
 
-interface Props {
+interface Props<T> {
   searchBarValue: string;
   setSearchBarValue: React.Dispatch<React.SetStateAction<string>>;
   setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>;
-  setFilteredStudents: React.Dispatch<React.SetStateAction<UserList>>;
-  students: UserList;
+  setFilteredData: React.Dispatch<React.SetStateAction<T[]>>;
+  data: T[];
+  filterFn: (item: T, query: string) => boolean;
 }
 
-const SearchBar: FC<Props> = ({
+function SearchBar<T>({
   searchBarValue,
   setSearchBarValue,
   setIsFiltered,
-  setFilteredStudents,
-  students,
-}) => {
+  setFilteredData,
+  data,
+  filterFn,
+}: Props<T>) {
   const handleSearchBarChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === "") {
       setIsFiltered(false);
     } else {
-      setFilteredStudents(
-        students.filter((student) =>
-          (
-            student.firstName +
-            " " +
-            student.secondName +
-            " " +
-            student.surname +
-            " " +
-            student.secondSurName
-          )
-            .toLowerCase()
-            .includes(e.target.value.toLowerCase())
-        )
-      );
+      setFilteredData(data.filter((item) => filterFn(item, e.target.value)));
       setIsFiltered(true);
     }
     setSearchBarValue(e.target.value);
@@ -62,6 +49,6 @@ const SearchBar: FC<Props> = ({
       </InputRightElement>
     </InputGroup>
   );
-};
+}
 
 export default SearchBar;
