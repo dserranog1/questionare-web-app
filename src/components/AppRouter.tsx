@@ -41,6 +41,7 @@ const AppRouter = () => {
         <Route element={<Auth allowedRole="administrador" />}>
           <Route path="questions">
             <Route index element={<DashboardQuestions />} />
+            <Route path=":questionId" element={<DashboardQuestions />} />
             <Route path="add" element={<DashboardAddQuestion />} />
           </Route>
           <Route path="students">

@@ -18,8 +18,8 @@ import { pb } from "../services/pocketbase";
 import { Question, QuestionList } from "../types/questions";
 import CustomSpinner from "./CustomSpinner";
 import Pagination from "./Pagination";
+import QuestionInfoModal from "./QuestionInfoModal";
 import SearchBar from "./SearchBar";
-import StudentInfoModal from "./StudentInfoModal";
 
 const filterQuestionsFn = (question: Question, query: string): boolean => {
   return question.title.toLowerCase().includes(query.toLowerCase());
@@ -28,8 +28,8 @@ const filterQuestionsFn = (question: Question, query: string): boolean => {
 const DashboardQuestions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(8);
-  const { studentId } = useParams();
-  const studentInfoModalDisclosure = useDisclosure();
+  const { questionId } = useParams();
+  const questionInfoModalDisclosure = useDisclosure();
   const [filteredQuestions, setFilteredQuestions] = useState<QuestionList>([]);
   const [isFiltered, setIsFiltered] = useState(false);
   const [searchBarValue, setSearchBarValue] = useState<string>("");
@@ -60,11 +60,11 @@ const DashboardQuestions = () => {
 
     return (
       <>
-        {studentId && (
-          <StudentInfoModal
-            {...studentInfoModalDisclosure}
+        {questionId && (
+          <QuestionInfoModal
+            {...questionInfoModalDisclosure}
             isOpen={true}
-            studentId={studentId}
+            questionId={questionId}
           />
         )}
         <div className="mx-9 mb-6 flex flex-1 flex-col">

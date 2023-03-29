@@ -4,6 +4,7 @@ export interface Question {
 }
 
 export interface Answer {
+  id: string;
   description: string;
   correct: boolean;
 }
@@ -11,3 +12,7 @@ export interface Answer {
 export type AnswerList = Answer[];
 
 export type QuestionList = Question[];
+
+export interface ExpandedQuestion extends Question {
+  expand: { "answers(question)": AnswerList }; // TODO open issue regarding this way of typing expand
+}

@@ -9,22 +9,26 @@ import {
 } from "@chakra-ui/react";
 import {
   CheckBadgeIcon,
+  CheckCircleIcon,
   IdentificationIcon,
   InboxIcon,
   InformationCircleIcon,
   PhoneIcon,
+  QuestionMarkCircleIcon,
   UserCircleIcon,
+  XCircleIcon,
 } from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { pb } from "../services/pocketbase";
 import { Options } from "../types/forms";
+import { ExpandedQuestion, Question } from "../types/questions";
 import { User } from "../types/user";
 import CustomSpinner from "./CustomSpinner";
 
 interface Props {
-  studentId: string;
+  questionId: string;
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
@@ -32,16 +36,15 @@ interface Props {
   isControlled: boolean;
 }
 
-export const documentTypes: Options = [
-  { value: 1, label: "Tarjeta de identidad" },
-  { value: 2, label: "Cédula de ciudadanía" },
-  { value: 3, label: "Cédula de extranjería" },
-];
-
-const StudentInfoModal: FC<Props> = ({ isOpen, onClose, studentId }) => {
-  const { status, data: student } = useQuery({
-    queryKey: ["students", studentId],
-    queryFn: () => pb.collection("users").getOne<User>(studentId),
+const QuestionInfoModal: FC<Props> = ({ isOpen, onClose, questionId }) => {
+  const { status, data: question } = useQuery({
+    queryKey: ["questions", questionId],
+    queryFn: () =>
+      pb
+        .collection("questions")
+        .getFirstListItem<ExpandedQuestion>(`id="${questionId}"`, {
+          expand: "answers(question)",
+        }),
   });
 
   const getContent = () => {
@@ -51,35 +54,25 @@ const StudentInfoModal: FC<Props> = ({ isOpen, onClose, studentId }) => {
     if (status === "loading") {
       return <CustomSpinner />;
     }
-    const documentName = documentTypes.find(
-      (doc) => +doc.value === student.typeDocument
-    )?.label;
     return (
-      <div className="text-cool-grey-704 flex flex-col gap-4 text-3">
-        <div className="flex flex-row gap-6">
-          <UserCircleIcon className="w-5 fill-cool-grey-800" />
-          {student.firstName +
-            " " +
-            student.secondName +
-            " " +
-            student.surname +
-            " " +
-            student.secondSurName}
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-row gap-4 text-5 font-bold text-cool-grey-900">
+          <QuestionMarkCircleIcon className="w-5 fill-cool-grey-800" />
+          {question.title}
         </div>
-        <div className="flex flex-row gap-6">
-          <InboxIcon className="w-5 fill-cool-grey-800" />
-          {student.email}
-        </div>
-        <div className="flex flex-row gap-6">
-          <PhoneIcon className="w-5 fill-cool-grey-800" />
-          {student.phone}
-        </div>
-        <div className="flex flex-row gap-6">
-          <IdentificationIcon className="w-5 fill-cool-grey-800" />
-          <div className="flex flex-col justify-center">
-            <p>{student.documentNumber}</p>
-            <p className="text-1">{documentName}</p>
-          </div>
+        <div className="flex flex-col gap-6">
+          {question.expand["answers(question)"].map((answer) => {
+            return (
+              <div key={answer.id} className="ml-5 flex flex-row gap-5">
+                {answer.correct ? (
+                  <CheckCircleIcon className="w-5 fill-teal-500" />
+                ) : (
+                  <XCircleIcon className="w-5 fill-red-500" />
+                )}
+                {answer.description}
+              </div>
+            );
+          })}
         </div>
       </div>
     );
@@ -93,7 +86,7 @@ const StudentInfoModal: FC<Props> = ({ isOpen, onClose, studentId }) => {
         <ModalHeader>
           <div className="flex flex-row gap-3 text-cool-grey-400">
             <InformationCircleIcon className="w-6 fill-light-blue-vivid-700" />{" "}
-            Información del estudiante
+            Información de la pregunta
           </div>
         </ModalHeader>
         <ModalBody
@@ -123,4 +116,5 @@ const StudentInfoModal: FC<Props> = ({ isOpen, onClose, studentId }) => {
     </Modal>
   );
 };
-export default StudentInfoModal;
+
+export default QuestionInfoModal;

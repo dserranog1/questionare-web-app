@@ -1,11 +1,11 @@
 import { Card, CardBody, CardHeader } from "@chakra-ui/react";
 import { Formik } from "formik";
-import { RegisterQuestionValues, SignUpValues } from "../types/forms";
+import { RegisterQuestionValues } from "../types/forms";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { pb } from "../services/pocketbase";
 import { useNavigate } from "react-router-dom";
-import { RegisterQuestionSchema, SignUpSchema } from "../schemas";
+import { RegisterQuestionSchema } from "../schemas";
 import { useContext, useState } from "react";
 import { DisclosuresContext } from "../providers/DisclosuresProvider";
 import SubmitButton from "./forms/items/SubmitButton";
@@ -30,15 +30,20 @@ const DashboardAddQuestion = () => {
     useContext(DisclosuresContext);
 
   const createAnswer = useMutation({
-    mutationFn: (data: { questionId: string; answer: Answer }) => {
+    mutationFn: (data: { questionId: string; answer: Omit<Answer, "id"> }) => {
       return pb
         .collection("answers")
         .create<Answer>(
-          { field: data.questionId, ...data.answer },
+          { question: data.questionId, ...data.answer },
           { $autoCancel: false }
         );
     },
+    onError: () => {},
   });
+
+  // TODO handle errors when either question or answer creation fails
+  // the idea is that if the question creation fails, stay on add, but if
+  // the question is created but the answers fail, redirect to edit
 
   const createQuestion = useMutation({
     mutationFn: async (data: RegisterQuestionValues) => {
@@ -47,11 +52,12 @@ const DashboardAddQuestion = () => {
         .create<Question>({ title: data.title });
       return Promise.all(
         data.answers.map((answer) =>
-          createAnswer.mutate({ questionId, answer })
+          createAnswer.mutateAsync({ questionId, answer })
         )
       );
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
+    onError: () => {},
   });
   return (
     <div className="my-6 flex flex-1 items-center justify-center">

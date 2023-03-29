@@ -1,4 +1,4 @@
-import { AnswerList } from "./questions";
+import { Answer, AnswerList } from "./questions";
 
 export interface SignInValues {
   email: string;
@@ -19,7 +19,7 @@ export interface SignUpValues {
 
 export interface RegisterQuestionValues {
   title: string;
-  answers: AnswerList;
+  answers: Omit<Answer, "id">[];
 }
 
 export type Option = { value: number; label: string };
