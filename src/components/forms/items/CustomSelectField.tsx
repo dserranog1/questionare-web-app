@@ -6,11 +6,12 @@ import { Option, Options } from "../../../types/forms";
 
 interface Props {
   name: string;
-  label: string;
+  label?: string;
   placeholder: string;
   errorMessage?: string;
   options: Options;
   defaultValue?: Option;
+  isRequired?: boolean;
 }
 
 const CustomSelectField: FC<Props> = ({
@@ -20,12 +21,13 @@ const CustomSelectField: FC<Props> = ({
   errorMessage,
   options,
   defaultValue,
+  isRequired,
 }) => {
   return (
     <Field type="select" name={name}>
       {({ meta, form }: FieldProps<string>) => (
         <FormControl
-          isRequired
+          isRequired={isRequired}
           isInvalid={meta.touched && meta.error ? true : false}
         >
           <FormLabel>{label}</FormLabel>
@@ -34,7 +36,7 @@ const CustomSelectField: FC<Props> = ({
             errorBorderColor="red-vivid-500"
             name={name}
             onBlur={() => {
-              form.setTouched({ [name]: true });
+              form.setTouched({ ...form.touched, [name]: true });
             }}
             onChange={(option) => {
               form.setFieldValue(name, option?.value);

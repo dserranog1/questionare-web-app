@@ -72,7 +72,7 @@ const DashboardLayout = () => {
                 _hover={{ textColor: "cool-grey-050" }}
                 textColor="cool-grey-200"
               >
-                Formulario
+                Cuestionario
               </Button>{" "}
             </Link>
           )}
