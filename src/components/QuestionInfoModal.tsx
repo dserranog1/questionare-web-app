@@ -8,23 +8,16 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import {
-  CheckBadgeIcon,
   CheckCircleIcon,
-  IdentificationIcon,
-  InboxIcon,
   InformationCircleIcon,
-  PhoneIcon,
   QuestionMarkCircleIcon,
-  UserCircleIcon,
   XCircleIcon,
 } from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { pb } from "../services/pocketbase";
-import { Options } from "../types/forms";
-import { ExpandedQuestion, Question } from "../types/questions";
-import { User } from "../types/user";
+import { ExpandedQuestion } from "../types/questions";
 import CustomSpinner from "./CustomSpinner";
 
 interface Props {

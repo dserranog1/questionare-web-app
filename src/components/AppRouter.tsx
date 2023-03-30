@@ -3,6 +3,7 @@ import { DisclosuresProvider } from "../providers/DisclosuresProvider";
 import Auth from "./Auth";
 import DashboardAddQuestion from "./DashboardAddQuestion";
 import DashboardAddStudent from "./DashboardAddStudent";
+import DashboardEditQuestion from "./DashboardEditQuestion";
 import DashboardEditStudent from "./DashboardEditStudent";
 import DashboardHome from "./DashboardHome";
 import DashboardLayout from "./DashboardLayout";
@@ -41,13 +42,17 @@ const AppRouter = () => {
         <Route element={<Auth allowedRole="administrador" />}>
           <Route path="questions">
             <Route index element={<DashboardQuestions />} />
-            <Route path=":questionId" element={<DashboardQuestions />} />
             <Route path="add" element={<DashboardAddQuestion />} />
+            <Route path=":questionId" element={<DashboardQuestions />} />
+            <Route
+              path=":questionId/edit"
+              element={<DashboardEditQuestion />}
+            />
           </Route>
           <Route path="students">
             <Route index element={<DashboardStudents />} />
-            <Route path=":studentId" element={<DashboardStudents />} />
             <Route path="add" element={<DashboardAddStudent />} />
+            <Route path=":studentId" element={<DashboardStudents />} />
             <Route path=":studentId/edit" element={<DashboardEditStudent />} />
           </Route>
         </Route>

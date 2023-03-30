@@ -22,6 +22,11 @@ export interface RegisterQuestionValues {
   answers: Omit<Answer, "id">[];
 }
 
+export interface UpdateQuestionValues {
+  title: string;
+  answers: AnswerList;
+}
+
 export type Option = { value: number; label: string };
 
 export type Options = Option[];
