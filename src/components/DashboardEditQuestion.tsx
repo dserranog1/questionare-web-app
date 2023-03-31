@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@chakra-ui/react";
+import { Card, CardBody, CardHeader, useDisclosure } from "@chakra-ui/react";
 import { Formik } from "formik";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -13,6 +13,7 @@ import { Answer, ExpandedQuestion, Question } from "../types/questions";
 import CustomSpinner from "./ui/CustomSpinner";
 import ErrorPage from "./ErrorPage";
 import { RegisterQuestionValues } from "../types/forms";
+import DeleteQuestionButton from "./forms/items/DeleteQuestionButton";
 
 const DashboardEditQuestion = () => {
   const { questionId } = useParams();
@@ -20,7 +21,7 @@ const DashboardEditQuestion = () => {
   const navigate = useNavigate();
   const { successfullDisclosure, errorDisclosure, setMessage } =
     useContext(DisclosuresContext);
-
+  const deleteDisclosure = useDisclosure();
   const {
     status,
     error,
@@ -149,11 +150,14 @@ const DashboardEditQuestion = () => {
           >
             {({ isValid, errors, values }) => (
               <QuestionsForm errors={errors} values={values}>
-                <SubmitButton
-                  buttonText="Actualizar"
-                  isSubmitting={editQuestion.isLoading}
-                  isDisabled={!isValid}
-                />
+                <div className="flex flex-row justify-end gap-4">
+                  <DeleteQuestionButton {...deleteDisclosure} />
+                  <SubmitButton
+                    buttonText="Actualizar"
+                    isSubmitting={editQuestion.isLoading}
+                    isDisabled={!isValid}
+                  />
+                </div>
               </QuestionsForm>
             )}
           </Formik>

@@ -14,7 +14,7 @@ import CustomSpinner from "./ui/CustomSpinner";
 import StudentsEditForm from "./forms/StudentsEditForm";
 import { documentTypes } from "./ui/StudentInfoModal";
 import ErrorPage from "./ErrorPage";
-import DeleteButton from "./forms/items/DeleteButton";
+import DeleteStudentButton from "./forms/items/DeleteStudentButton";
 
 const DashboardEditStudent = () => {
   const { studentId } = useParams();
@@ -121,7 +121,7 @@ const DashboardEditStudent = () => {
                 errors={errors}
               >
                 <div className="flex flex-row justify-end gap-4">
-                  <DeleteButton {...deleteDisclosure} />
+                  <DeleteStudentButton {...deleteDisclosure} />
                   <SubmitButton
                     buttonText="Guardar"
                     isSubmitting={editUser.isLoading}

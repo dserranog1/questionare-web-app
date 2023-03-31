@@ -17,11 +17,9 @@ interface Props {
   isOpen: boolean;
   onToggle: () => void;
   onClose: () => void;
-  isLoading?: boolean;
-  handleClick?: () => void;
 }
 
-const DeleteButton: FC<Props> = ({ isOpen, onToggle, onClose }) => {
+const DeleteStudentButton: FC<Props> = ({ isOpen, onToggle, onClose }) => {
   const { studentId } = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -35,7 +33,6 @@ const DeleteButton: FC<Props> = ({ isOpen, onToggle, onClose }) => {
       queryClient.setQueryData(
         ["students"],
         (old: { items: UserList } | undefined) => {
-          console.log(old);
           return {
             ...old,
             items:
@@ -97,4 +94,4 @@ const DeleteButton: FC<Props> = ({ isOpen, onToggle, onClose }) => {
   );
 };
 
-export default DeleteButton;
+export default DeleteStudentButton;
