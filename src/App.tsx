@@ -22,7 +22,6 @@ function App() {
   });
 
   pb.health.check();
-
   return (
     <UserProvider>
       <QueryClientProvider client={queryClient}>
