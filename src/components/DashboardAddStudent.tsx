@@ -78,7 +78,6 @@ const DashboardAddStudent = () => {
                   },
                 }
               );
-              console.log("submiting");
             }}
           >
             {({ isValid, errors, touched }) => (

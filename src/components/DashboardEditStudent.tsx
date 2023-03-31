@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@chakra-ui/react";
+import { Card, CardBody, CardHeader, useDisclosure } from "@chakra-ui/react";
 import { Formik } from "formik";
 import { SignUpValues } from "../types/forms";
 import { WrenchIcon } from "@heroicons/react/24/solid";
@@ -14,12 +14,14 @@ import CustomSpinner from "./ui/CustomSpinner";
 import StudentsEditForm from "./forms/StudentsEditForm";
 import { documentTypes } from "./ui/StudentInfoModal";
 import ErrorPage from "./ErrorPage";
+import DeleteButton from "./forms/items/DeleteButton";
 
 const DashboardEditStudent = () => {
   const { studentId } = useParams();
   const navigate = useNavigate();
   const { successfullDisclosure, errorDisclosure, setMessage } =
     useContext(DisclosuresContext);
+  const deleteDisclosure = useDisclosure();
   const {
     status,
     error,
@@ -41,6 +43,7 @@ const DashboardEditStudent = () => {
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["students"] }),
   });
+
   if (status === "loading") {
     return <CustomSpinner />;
   }
@@ -110,7 +113,6 @@ const DashboardEditStudent = () => {
                   },
                 }
               );
-              console.log("submiting");
             }}
           >
             {({ isValid, errors }) => (
@@ -118,11 +120,14 @@ const DashboardEditStudent = () => {
                 defaultSelectValue={defaultSelectValue}
                 errors={errors}
               >
-                <SubmitButton
-                  buttonText="Guardar"
-                  isSubmitting={editUser.isLoading}
-                  isDisabled={!isValid}
-                />
+                <div className="flex flex-row justify-end gap-4">
+                  <DeleteButton {...deleteDisclosure} />
+                  <SubmitButton
+                    buttonText="Guardar"
+                    isSubmitting={editUser.isLoading}
+                    isDisabled={!isValid}
+                  />
+                </div>
               </StudentsEditForm>
             )}
           </Formik>

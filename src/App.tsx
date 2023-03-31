@@ -2,8 +2,8 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { UserProvider } from "./providers/UserProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fontSizes, spacing, themeColors } from "./theme/config";
-import AppRouter from "./components/AppRouter";
 import { pb } from "./services/pocketbase";
+import AppRouter from "./components/AppRouter";
 
 function App() {
   const theme = extendTheme({

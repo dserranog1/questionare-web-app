@@ -8,7 +8,6 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import {
-  CheckBadgeIcon,
   IdentificationIcon,
   InboxIcon,
   InformationCircleIcon,
