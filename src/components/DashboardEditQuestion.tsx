@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { pb } from "../services/pocketbase";
 import { useNavigate, useParams } from "react-router-dom";
 import { RegisterQuestionSchema } from "../schemas";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { DisclosuresContext } from "../providers/DisclosuresProvider";
 import SubmitButton from "./forms/items/SubmitButton";
 import QuestionsForm from "./forms/QuestionsForm";
@@ -45,7 +45,9 @@ const DashboardEditQuestion = () => {
           { $autoCancel: false }
         );
     },
-    onError: () => {},
+    onError: () => {
+      // empty on purpose
+    },
   });
   const removeAnswer = useMutation({
     mutationFn: (data: { questionId: string; answer: Answer }) => {
@@ -53,7 +55,9 @@ const DashboardEditQuestion = () => {
         .collection("answers")
         .delete(data.answer.id, { question: data.questionId, ...data.answer });
     },
-    onError: () => {},
+    onError: () => {
+      // empty on purpose
+    },
   });
 
   const createAnswer = useMutation({
@@ -65,7 +69,9 @@ const DashboardEditQuestion = () => {
           { $autoCancel: false }
         );
     },
-    onError: () => {},
+    onError: () => {
+      // empty on purpose
+    },
   });
 
   // TODO handle errors when either question or answer creation fails
@@ -74,9 +80,9 @@ const DashboardEditQuestion = () => {
 
   const editQuestion = useMutation({
     mutationFn: async (data: RegisterQuestionValues) => {
-      console.log({ data });
       const { id } = await pb
         .collection("questions")
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         .update<Question>(questionId!, { title: data.title });
       return Promise.all(
         data.answers.map((answer) => {
@@ -92,9 +98,10 @@ const DashboardEditQuestion = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["questions", questionId] });
-      console.log(questionId);
     },
-    onError: () => {},
+    onError: () => {
+      // empty on purpose
+    },
   });
 
   if (status === "loading") {

@@ -1,4 +1,4 @@
-import { Form, FormikErrors } from "formik";
+import { Form, type FormikErrors } from "formik";
 import { FC, PropsWithChildren } from "react";
 import { Option, SignUpValues } from "../../types/forms";
 import { documentTypes } from "../ui/StudentInfoModal";

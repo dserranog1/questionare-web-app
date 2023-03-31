@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { pb } from "../services/pocketbase";
 import { useNavigate } from "react-router-dom";
 import { RegisterQuestionSchema } from "../schemas";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { DisclosuresContext } from "../providers/DisclosuresProvider";
 import SubmitButton from "./forms/items/SubmitButton";
 import QuestionsForm from "./forms/QuestionsForm";
@@ -38,7 +38,9 @@ const DashboardAddQuestion = () => {
           { $autoCancel: false }
         );
     },
-    onError: () => {},
+    onError: () => {
+      // empty on purpose
+    },
   });
 
   // TODO handle errors when either question or answer creation fails
@@ -57,7 +59,9 @@ const DashboardAddQuestion = () => {
       );
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
-    onError: () => {},
+    onError: () => {
+      // empty on purpose
+    },
   });
   return (
     <div className="my-6 flex flex-1 items-center justify-center">

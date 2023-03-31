@@ -31,7 +31,6 @@ const DashboardQuestionare = () => {
       pb
         .collection("questions")
         .getFullList<ExpandedQuestion>({ expand: "answers(question)" }),
-    onSuccess: (data) => console.log(data),
   });
   if (status === "error") {
     return <ErrorPage error={error} />;

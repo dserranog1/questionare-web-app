@@ -27,9 +27,10 @@ const DeleteStudentButton: FC<Props> = ({ isOpen, onToggle, onClose }) => {
     useContext(DisclosuresContext);
   const deleteUser = useMutation({
     mutationFn: () => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return pb.collection("users").delete(studentId!);
     },
-    onSuccess: ({}) =>
+    onSuccess: () =>
       queryClient.setQueryData(
         ["students"],
         (old: { items: UserList } | undefined) => {

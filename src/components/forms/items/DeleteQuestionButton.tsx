@@ -29,7 +29,7 @@ const DeleteQuestionButton: FC<Props> = ({ isOpen, onToggle, onClose }) => {
     mutationFn: () => {
       return pb.collection("questions").delete(questionId!);
     },
-    onSuccess: ({}) =>
+    onSuccess: () =>
       queryClient.setQueryData(
         ["questions"],
         (old: { items: QuestionList } | undefined) => {

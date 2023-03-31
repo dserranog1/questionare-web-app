@@ -1,6 +1,6 @@
 import { Button, Radio, RadioGroup, Tooltip } from "@chakra-ui/react";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
-import { FieldArray, Form, FormikErrors, useFormikContext } from "formik";
+import { FieldArray, Form, type FormikErrors, useFormikContext } from "formik";
 import { FC, PropsWithChildren } from "react";
 import { RegisterQuestionValues } from "../../types/forms";
 import { createId } from "../../utils/common";
@@ -29,7 +29,6 @@ const QuestionForm: FC<PropsWithChildren<Props>> = ({
       <FieldArray
         name="answers"
         render={(arrayHelpers) => {
-          console.log(values);
           const answers = values.answers;
           const correctAnswer = answers.find((answer) => answer.correct);
           return (
