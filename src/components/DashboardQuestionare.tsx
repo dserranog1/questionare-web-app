@@ -6,8 +6,9 @@ import { useState } from "react";
 import { number, object } from "yup";
 import { pb } from "../services/pocketbase";
 import { ExpandedQuestion } from "../types/questions";
-import CustomSpinner from "./CustomSpinner";
+import CustomSpinner from "./ui/CustomSpinner";
 import DashboardQuestionareResults from "./DashboardQuestionareResults";
+import ErrorPage from "./ErrorPage";
 import CustomSelectField from "./forms/items/CustomSelectField";
 import SubmitButton from "./forms/items/SubmitButton";
 
@@ -29,21 +30,13 @@ const DashboardQuestionare = () => {
     queryFn: () =>
       pb
         .collection("questions")
-        .getFullList<ExpandedQuestion>({ expand: "answers(question)" }), // TODO use paginated fetch
+        .getFullList<ExpandedQuestion>({ expand: "answers(question)" }),
     onSuccess: (data) => console.log(data),
   });
   if (status === "error") {
-    if (error instanceof Error) {
-      return (
-        <div>
-          <p>{error.message}</p>
-        </div>
-      );
-    } else {
-      //this else prevents component to return undefined
-      return <div>some error</div>; //TODO handle alll errors
-    }
-  } else if (status === "loading") {
+    return <ErrorPage error={error} />;
+  }
+  if (status === "loading") {
     return <CustomSpinner />;
   } else {
     const handleSubmit = (registeredAnswers: RegisteredAnswers) => {

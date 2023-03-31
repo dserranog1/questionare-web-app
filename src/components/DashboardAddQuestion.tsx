@@ -9,7 +9,7 @@ import { RegisterQuestionSchema } from "../schemas";
 import { useContext, useState } from "react";
 import { DisclosuresContext } from "../providers/DisclosuresProvider";
 import SubmitButton from "./forms/items/SubmitButton";
-import QuestionsAddForm from "./forms/QuestionsAddForm";
+import QuestionsForm from "./forms/QuestionsForm";
 import { Answer, Question } from "../types/questions";
 
 const DashboardAddQuestion = () => {
@@ -101,7 +101,7 @@ const DashboardAddQuestion = () => {
             }}
           >
             {({ isValid, errors, touched, values }) => (
-              <QuestionsAddForm
+              <QuestionsForm
                 errors={errors}
                 values={values}
                 correctOption={correctOption}
@@ -118,7 +118,7 @@ const DashboardAddQuestion = () => {
                     )
                   }
                 />
-              </QuestionsAddForm>
+              </QuestionsForm>
             )}
           </Formik>
         </CardBody>

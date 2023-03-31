@@ -9,9 +9,10 @@ import { RegisterQuestionSchema } from "../schemas";
 import { useContext, useEffect, useState } from "react";
 import { DisclosuresContext } from "../providers/DisclosuresProvider";
 import SubmitButton from "./forms/items/SubmitButton";
-import QuestionsAddForm from "./forms/QuestionsAddForm";
+import QuestionsForm from "./forms/QuestionsForm";
 import { Answer, ExpandedQuestion, Question } from "../types/questions";
-import CustomSpinner from "./CustomSpinner";
+import CustomSpinner from "./ui/CustomSpinner";
+import ErrorPage from "./ErrorPage";
 
 const DashboardEditQuestion = () => {
   const { questionId } = useParams();
@@ -78,16 +79,7 @@ const DashboardEditQuestion = () => {
     return <CustomSpinner />;
   }
   if (status === "error") {
-    if (error instanceof Error) {
-      return (
-        <div>
-          <p>{error.message}</p>
-        </div>
-      );
-    } else {
-      //this else prevents component to return undefined
-      return <div>some error</div>; //TODO handle alll errors
-    }
+    return <ErrorPage error={error} />;
   }
 
   const initialValues: UpdateQuestionValues = {
@@ -142,7 +134,7 @@ const DashboardEditQuestion = () => {
             }}
           >
             {({ isValid, errors, touched, values }) => (
-              <QuestionsAddForm
+              <QuestionsForm
                 errors={errors}
                 values={values}
                 correctOption={correctOption}
@@ -154,7 +146,7 @@ const DashboardEditQuestion = () => {
                   isSubmitting={false}
                   isDisabled={!isValid}
                 />
-              </QuestionsAddForm>
+              </QuestionsForm>
             )}
           </Formik>
         </CardBody>

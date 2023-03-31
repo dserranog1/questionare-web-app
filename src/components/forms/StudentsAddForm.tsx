@@ -1,7 +1,7 @@
 import { Form, FormikErrors } from "formik";
 import { FC, PropsWithChildren } from "react";
 import { SignUpValues } from "../../types/forms";
-import { documentTypes } from "../StudentInfoModal";
+import { documentTypes } from "../ui/StudentInfoModal";
 import CustomInputField from "./items/CustomInputField";
 import CustomSelectField from "./items/CustomSelectField";
 import InputPasswordField from "./items/InputPasswordField";

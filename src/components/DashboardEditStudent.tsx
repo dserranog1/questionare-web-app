@@ -10,9 +10,10 @@ import { SignUpSchema } from "../schemas";
 import { useContext } from "react";
 import { DisclosuresContext } from "../providers/DisclosuresProvider";
 import SubmitButton from "./forms/items/SubmitButton";
-import CustomSpinner from "./CustomSpinner";
+import CustomSpinner from "./ui/CustomSpinner";
 import StudentsEditForm from "./forms/StudentsEditForm";
-import { documentTypes } from "./StudentInfoModal";
+import { documentTypes } from "./ui/StudentInfoModal";
+import ErrorPage from "./ErrorPage";
 
 const DashboardEditStudent = () => {
   const { studentId } = useParams();
@@ -44,16 +45,7 @@ const DashboardEditStudent = () => {
     return <CustomSpinner />;
   }
   if (status === "error") {
-    if (error instanceof Error) {
-      return (
-        <div>
-          <p>{error.message}</p>
-        </div>
-      );
-    } else {
-      //this else prevents component to return undefined
-      return <div>some error</div>; //TODO handle alll errors
-    }
+    return <ErrorPage error={error} />;
   }
   const initialValues: SignUpValues = {
     email: student.email,

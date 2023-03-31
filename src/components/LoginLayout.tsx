@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import GoBackButton from "./GoBackButton";
+import GoBackButton from "./ui/GoBackButton";
 import Header from "./Header";
 
 const LoginLayout = () => {

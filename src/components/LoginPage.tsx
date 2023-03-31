@@ -53,7 +53,7 @@ const LoginPage = () => {
         },
         onError: (error) => {
           if (error instanceof ClientResponseError) {
-            if (error.toJSON().response.code === 400) {
+            if (error.status === 400) {
               toast({
                 description: "Correo o contraseña inválido",
                 status: "error",

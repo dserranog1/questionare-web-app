@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { DisclosuresContext } from "../providers/DisclosuresProvider";
-import SuccessErrorModal from "./SuccessErrorModal";
+import SuccessErrorModal from "./ui/SuccessErrorModal";
 import Header from "./Header";
-import LogOutButton from "./LogOutButton";
+import LogOutButton from "./ui/LogOutButton";
 import { Button } from "@chakra-ui/react";
-import GoBackButton from "./GoBackButton";
+import GoBackButton from "./ui/GoBackButton";
 import { UserContext } from "../providers/UserProvider";
 
 const DashboardLayout = () => {

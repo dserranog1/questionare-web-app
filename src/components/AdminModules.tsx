@@ -1,5 +1,5 @@
 import { QuestionMarkCircleIcon, UserIcon } from "@heroicons/react/24/solid";
-import ModuleCard from "./ModuleCard";
+import ModuleCard from "./ui/ModuleCard";
 
 const AdminModules = () => {
   return (

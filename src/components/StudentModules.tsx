@@ -1,4 +1,4 @@
-import ModuleCard from "./ModuleCard";
+import ModuleCard from "./ui/ModuleCard";
 import { ListBulletIcon } from "@heroicons/react/24/solid";
 
 const StudentModules = () => {

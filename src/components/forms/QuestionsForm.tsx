@@ -1,7 +1,7 @@
 import { Button, Radio, RadioGroup, Tooltip } from "@chakra-ui/react";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
 import { FieldArray, Form, FormikErrors } from "formik";
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, PropsWithChildren } from "react";
 import { RegisterQuestionValues } from "../../types/forms";
 import CustomInputField from "./items/CustomInputField";
 
@@ -12,7 +12,7 @@ interface Props {
   values: RegisterQuestionValues;
 }
 
-const QuestionsAddForm: FC<PropsWithChildren<Props>> = ({
+const QuestionForm: FC<PropsWithChildren<Props>> = ({
   errors,
   values,
   children,
@@ -105,4 +105,4 @@ const QuestionsAddForm: FC<PropsWithChildren<Props>> = ({
   );
 };
 
-export default QuestionsAddForm;
+export default QuestionForm;
