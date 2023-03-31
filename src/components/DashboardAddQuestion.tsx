@@ -106,8 +106,7 @@ const DashboardAddQuestion = () => {
               <QuestionsForm errors={errors} values={values}>
                 <SubmitButton
                   buttonText="Crear"
-                  //   isSubmitting={createUser.isLoading}
-                  isSubmitting={false}
+                  isSubmitting={createQuestion.isLoading}
                   isDisabled={
                     !isValid ||
                     !touched.answers?.some(
