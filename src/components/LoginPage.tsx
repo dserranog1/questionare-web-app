@@ -19,6 +19,9 @@ import { User } from "../types/user";
 import { useMutation } from "@tanstack/react-query";
 import { SignInSchema } from "../schemas";
 
+//TODO a useful feature would be to check that if a token already exists
+// redirect the user to the dashboard
+
 const LoginPage = () => {
   const toast = useToast();
   const navigate = useNavigate();
@@ -31,7 +34,6 @@ const LoginPage = () => {
       setCurrentUser({
         ...data.record,
       });
-      localStorage.setItem("JWT", data.token); //TODO actually do something with this token
     },
   });
   const handleLogin = async (data: SignInValues) => {

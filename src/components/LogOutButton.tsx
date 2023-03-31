@@ -2,11 +2,13 @@ import { Button } from "@chakra-ui/react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../providers/UserProvider";
+import { pb } from "../services/pocketbase";
 
 const LogOutButton = () => {
   const { setCurrentUser } = useContext(UserContext);
   const handleOnClick = () => {
-    setCurrentUser(null); //TODO handle also pocketbase logout
+    setCurrentUser(null);
+    pb.authStore.clear();
   };
   return (
     <Link to={"/"}>

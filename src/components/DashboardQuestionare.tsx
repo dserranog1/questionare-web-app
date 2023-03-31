@@ -2,7 +2,7 @@ import { Card, CardBody, CardHeader } from "@chakra-ui/react";
 import { RocketLaunchIcon } from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { number, object } from "yup";
 import { pb } from "../services/pocketbase";
 import { ExpandedQuestion } from "../types/questions";
