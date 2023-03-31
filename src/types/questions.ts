@@ -7,6 +7,8 @@ export interface Answer {
   id: string;
   description: string;
   correct: boolean;
+  removed?: boolean;
+  added?: boolean;
 }
 
 export type AnswerList = Answer[];

@@ -1,4 +1,4 @@
-import { Answer, AnswerList } from "./questions";
+import { AnswerList } from "./questions";
 
 export interface SignInValues {
   email: string;
