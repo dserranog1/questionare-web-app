@@ -19,11 +19,6 @@ export interface SignUpValues {
 
 export interface RegisterQuestionValues {
   title: string;
-  answers: Omit<Answer, "id">[];
-}
-
-export interface UpdateQuestionValues {
-  title: string;
   answers: AnswerList;
 }
 

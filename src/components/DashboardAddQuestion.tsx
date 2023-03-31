@@ -11,19 +11,19 @@ import { DisclosuresContext } from "../providers/DisclosuresProvider";
 import SubmitButton from "./forms/items/SubmitButton";
 import QuestionsForm from "./forms/QuestionsForm";
 import { Answer, Question } from "../types/questions";
+import { createId } from "../utils/common";
 
 const DashboardAddQuestion = () => {
   const initialValues: RegisterQuestionValues = {
     title: "",
     answers: [
-      { description: "", correct: false },
-      { description: "", correct: false },
-      { description: "", correct: false },
-      { description: "", correct: false },
+      { description: "", correct: false, id: createId() },
+      { description: "", correct: false, id: createId() },
+      { description: "", correct: false, id: createId() },
+      { description: "", correct: false, id: createId() },
     ],
   };
 
-  const [correctOption, setCorrectOption] = useState("0");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { successfullDisclosure, errorDisclosure, setMessage } =
@@ -96,17 +96,10 @@ const DashboardAddQuestion = () => {
                   },
                 }
               );
-              data.answers[+correctOption].correct = true;
-              console.log("submiting", data);
             }}
           >
             {({ isValid, errors, touched, values }) => (
-              <QuestionsForm
-                errors={errors}
-                values={values}
-                correctOption={correctOption}
-                setCorrectOption={setCorrectOption}
-              >
+              <QuestionsForm errors={errors} values={values}>
                 <SubmitButton
                   buttonText="Crear"
                   //   isSubmitting={createUser.isLoading}

@@ -1,22 +1,21 @@
 import { Card, CardBody, CardHeader } from "@chakra-ui/react";
 import { Formik } from "formik";
-import { UpdateQuestionValues } from "../types/forms";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { pb } from "../services/pocketbase";
 import { useNavigate, useParams } from "react-router-dom";
 import { RegisterQuestionSchema } from "../schemas";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { DisclosuresContext } from "../providers/DisclosuresProvider";
 import SubmitButton from "./forms/items/SubmitButton";
 import QuestionsForm from "./forms/QuestionsForm";
 import { Answer, ExpandedQuestion, Question } from "../types/questions";
 import CustomSpinner from "./ui/CustomSpinner";
 import ErrorPage from "./ErrorPage";
+import { RegisterQuestionValues } from "../types/forms";
 
 const DashboardEditQuestion = () => {
   const { questionId } = useParams();
-  const [correctOption, setCorrectOption] = useState("0");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { successfullDisclosure, errorDisclosure, setMessage } =
@@ -47,34 +46,56 @@ const DashboardEditQuestion = () => {
     },
     onError: () => {},
   });
+  const removeAnswer = useMutation({
+    mutationFn: (data: { questionId: string; answer: Answer }) => {
+      return pb
+        .collection("answers")
+        .delete(data.answer.id, { question: data.questionId, ...data.answer });
+    },
+    onError: () => {},
+  });
+
+  const createAnswer = useMutation({
+    mutationFn: (data: { questionId: string; answer: Omit<Answer, "id"> }) => {
+      return pb
+        .collection("answers")
+        .create<Answer>(
+          { question: data.questionId, ...data.answer },
+          { $autoCancel: false }
+        );
+    },
+    onError: () => {},
+  });
 
   // TODO handle errors when either question or answer creation fails
   // the idea is that if the question creation fails, stay on add, but if
   // the question is created but the answers fail, redirect to edit
 
   const editQuestion = useMutation({
-    mutationFn: async (data: UpdateQuestionValues) => {
+    mutationFn: async (data: RegisterQuestionValues) => {
+      console.log({ data });
       const { id } = await pb
         .collection("questions")
         .update<Question>(questionId!, { title: data.title });
       return Promise.all(
-        data.answers.map((answer) =>
-          editAnswer.mutateAsync({ questionId: id, answer })
-        )
+        data.answers.map((answer) => {
+          if (answer.added) {
+            return createAnswer.mutateAsync({ questionId: id, answer });
+          }
+          if (answer.removed) {
+            return removeAnswer.mutateAsync({ questionId: id, answer });
+          }
+          return editAnswer.mutateAsync({ questionId: id, answer });
+        })
       );
     },
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["questions", questionId] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["questions", questionId] });
+      console.log(questionId);
+    },
     onError: () => {},
   });
 
-  useEffect(() => {
-    question?.expand["answers(question)"].forEach((answer, idx) => {
-      if (answer.correct === true) {
-        setCorrectOption(`${idx}`);
-      }
-    });
-  }, [question]);
   if (status === "loading") {
     return <CustomSpinner />;
   }
@@ -82,11 +103,10 @@ const DashboardEditQuestion = () => {
     return <ErrorPage error={error} />;
   }
 
-  const initialValues: UpdateQuestionValues = {
+  const initialValues: RegisterQuestionValues = {
     title: question.title,
     answers: question.expand["answers(question)"],
   };
-  console.log("correct answer is", correctOption);
 
   return (
     <div className="my-6 flex flex-1 items-center justify-center">
@@ -110,11 +130,7 @@ const DashboardEditQuestion = () => {
           <Formik
             validationSchema={RegisterQuestionSchema}
             initialValues={initialValues}
-            onSubmit={(data: UpdateQuestionValues) => {
-              data.answers.forEach((answer, idx) => {
-                if (answer.correct === true && idx !== +correctOption)
-                  answer.correct = false;
-              });
+            onSubmit={(data: RegisterQuestionValues) => {
               editQuestion.mutate(
                 { ...data },
                 {
@@ -129,21 +145,13 @@ const DashboardEditQuestion = () => {
                   },
                 }
               );
-              data.answers[+correctOption].correct = true;
-              console.log("submiting", data);
             }}
           >
-            {({ isValid, errors, touched, values }) => (
-              <QuestionsForm
-                errors={errors}
-                values={values}
-                correctOption={correctOption}
-                setCorrectOption={setCorrectOption}
-              >
+            {({ isValid, errors, values }) => (
+              <QuestionsForm errors={errors} values={values}>
                 <SubmitButton
                   buttonText="Actualizar"
-                  //   isSubmitting={createUser.isLoading}
-                  isSubmitting={false}
+                  isSubmitting={editQuestion.isLoading}
                   isDisabled={!isValid}
                 />
               </QuestionsForm>

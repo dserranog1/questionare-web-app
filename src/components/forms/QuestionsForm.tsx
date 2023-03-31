@@ -1,13 +1,12 @@
 import { Button, Radio, RadioGroup, Tooltip } from "@chakra-ui/react";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
-import { FieldArray, Form, FormikErrors } from "formik";
+import { FieldArray, Form, FormikErrors, useFormikContext } from "formik";
 import { FC, PropsWithChildren } from "react";
 import { RegisterQuestionValues } from "../../types/forms";
+import { createId } from "../../utils/common";
 import CustomInputField from "./items/CustomInputField";
 
 interface Props {
-  correctOption: string;
-  setCorrectOption: React.Dispatch<React.SetStateAction<string>>;
   errors: FormikErrors<RegisterQuestionValues>;
   values: RegisterQuestionValues;
 }
@@ -16,9 +15,8 @@ const QuestionForm: FC<PropsWithChildren<Props>> = ({
   errors,
   values,
   children,
-  correctOption,
-  setCorrectOption,
 }) => {
+  const { setFieldValue } = useFormikContext();
   return (
     <Form className="flex w-14 flex-col gap-8">
       <CustomInputField
@@ -31,13 +29,16 @@ const QuestionForm: FC<PropsWithChildren<Props>> = ({
       <FieldArray
         name="answers"
         render={(arrayHelpers) => {
+          console.log(values);
           const answers = values.answers;
+          const correctAnswer = answers.find((answer) => answer.correct);
           return (
             <>
               <div className="relative flex flex-col gap-6">
                 <p className="absolute right-0 -top-3 text-2">Correcta</p>
                 {answers && answers.length > 0
-                  ? answers.map((_, idx) => {
+                  ? answers.map((answer, idx) => {
+                      if (answer.removed) return null;
                       return (
                         <div key={idx} className="flex flex-row gap-5">
                           <Tooltip
@@ -48,8 +49,21 @@ const QuestionForm: FC<PropsWithChildren<Props>> = ({
                               onClick={(e) => {
                                 e.preventDefault();
                                 if (answers.length > 2) {
-                                  setCorrectOption("1");
-                                  arrayHelpers.remove(idx);
+                                  const newAnswers = answers
+                                    .map((oldAnswer) => {
+                                      if (
+                                        oldAnswer?.added &&
+                                        oldAnswer.id === answer.id
+                                      ) {
+                                        return null;
+                                      }
+                                      if (oldAnswer.id === answer.id) {
+                                        return { ...oldAnswer, removed: true };
+                                      }
+                                      return { ...oldAnswer };
+                                    })
+                                    .filter(Boolean);
+                                  setFieldValue("answers", newAnswers);
                                 }
                               }}
                             >
@@ -66,15 +80,26 @@ const QuestionForm: FC<PropsWithChildren<Props>> = ({
                             />
                             <RadioGroup
                               name="answer"
-                              value={correctOption}
-                              onChange={setCorrectOption}
+                              value={correctAnswer?.id}
+                              onChange={(val) => {
+                                const newAnswers = answers.map((answer) => {
+                                  if (answer.correct) {
+                                    return { ...answer, correct: false };
+                                  }
+                                  if (answer.id === val) {
+                                    return { ...answer, correct: true };
+                                  }
+                                  return { ...answer };
+                                });
+                                setFieldValue("answers", newAnswers);
+                              }}
                             >
                               <Radio
                                 borderColor="cool-grey-300"
                                 mt="7"
                                 ml="8"
                                 mr="4"
-                                value={`${idx}`}
+                                value={answer.id}
                               ></Radio>
                             </RadioGroup>
                           </div>
@@ -88,7 +113,12 @@ const QuestionForm: FC<PropsWithChildren<Props>> = ({
                   mt="6"
                   onClick={(e) => {
                     e.preventDefault();
-                    arrayHelpers.push({ description: "" });
+                    arrayHelpers.push({
+                      description: "",
+                      correct: false,
+                      id: createId(),
+                      added: true,
+                    });
                   }}
                 >
                   <PlusCircleIcon className="w-5 fill-teal-500" />{" "}
