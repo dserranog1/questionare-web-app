@@ -16,7 +16,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
 import { FC } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { pb } from "../../services/pocketbase";
 import { Options } from "../../types/forms";
 import { User } from "../../types/user";
@@ -38,6 +38,7 @@ export const documentTypes: Options = [
 ];
 
 const StudentInfoModal: FC<Props> = ({ isOpen, onClose, studentId }) => {
+  const navigate = useNavigate();
   const { status, data: student } = useQuery({
     queryKey: ["students", studentId],
     queryFn: () => pb.collection("users").getOne<User>(studentId),
@@ -104,19 +105,20 @@ const StudentInfoModal: FC<Props> = ({ isOpen, onClose, studentId }) => {
           {getContent()}
         </ModalBody>
         <ModalFooter>
-          <Link to={".."}>
-            <Button
-              colorScheme="blue"
-              variant="solid"
-              bgColor="light-blue-vivid-500"
-              textColor="cool-grey-050"
-              _hover={{ bgColor: "light-blue-vivid-800" }}
-              mr={3}
-              onClick={onClose}
-            >
-              Cerrar
-            </Button>
-          </Link>
+          <Button
+            colorScheme="blue"
+            variant="solid"
+            bgColor="light-blue-vivid-500"
+            textColor="cool-grey-050"
+            _hover={{ bgColor: "light-blue-vivid-800" }}
+            mr={3}
+            onClick={() => {
+              navigate(-1);
+              onClose;
+            }}
+          >
+            Volver
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

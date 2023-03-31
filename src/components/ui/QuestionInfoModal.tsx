@@ -15,7 +15,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
 import { FC } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { pb } from "../../services/pocketbase";
 import { ExpandedQuestion } from "../../types/questions";
 import CustomSpinner from "./CustomSpinner";
@@ -30,6 +30,7 @@ interface Props {
 }
 
 const QuestionInfoModal: FC<Props> = ({ isOpen, onClose, questionId }) => {
+  const navigate = useNavigate();
   const { status, data: question } = useQuery({
     queryKey: ["questions", questionId],
     queryFn: () =>
@@ -91,19 +92,20 @@ const QuestionInfoModal: FC<Props> = ({ isOpen, onClose, questionId }) => {
           {getContent()}
         </ModalBody>
         <ModalFooter>
-          <Link to={".."}>
-            <Button
-              colorScheme="blue"
-              variant="solid"
-              bgColor="light-blue-vivid-500"
-              textColor="cool-grey-050"
-              _hover={{ bgColor: "light-blue-vivid-800" }}
-              mr={3}
-              onClick={onClose}
-            >
-              Cerrar
-            </Button>
-          </Link>
+          <Button
+            colorScheme="blue"
+            variant="solid"
+            bgColor="light-blue-vivid-500"
+            textColor="cool-grey-050"
+            _hover={{ bgColor: "light-blue-vivid-800" }}
+            mr={3}
+            onClick={() => {
+              navigate(-1);
+              onClose;
+            }}
+          >
+            Volver
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
