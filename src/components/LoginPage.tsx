@@ -18,6 +18,7 @@ import { pb } from "../services/pocketbase";
 import { User } from "../types/user";
 import { useMutation } from "@tanstack/react-query";
 import { SignInSchema } from "../schemas";
+import { ClientResponseError } from "pocketbase";
 
 //TODO a useful feature would be to check that if a token already exists
 // redirect the user to the dashboard
@@ -41,7 +42,6 @@ const LoginPage = () => {
       { email: data.email, password: data.password },
       {
         onSuccess: () => {
-          // TODO handle onError
           toast({
             description: "Ingreso exitoso",
             status: "success",
@@ -50,6 +50,19 @@ const LoginPage = () => {
             isClosable: true,
           });
           navigate("/dashboard");
+        },
+        onError: (error) => {
+          if (error instanceof ClientResponseError) {
+            if (error.toJSON().response.code === 400) {
+              toast({
+                description: "Correo o contraseña inválido",
+                status: "error",
+                duration: 2000,
+                position: "top-right",
+                isClosable: true,
+              });
+            }
+          }
         },
       }
     );
