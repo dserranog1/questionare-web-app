@@ -5,6 +5,7 @@ import { useToast } from "@chakra-ui/react";
 
 interface Props {
   allowedRole: string;
+  someProp: number;
 }
 
 const Auth: FC<Props> = ({ allowedRole }) => {
